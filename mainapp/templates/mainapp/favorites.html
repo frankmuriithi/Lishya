@@ -1,0 +1,28 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block title %}Your Favorites{% endblock %}
+
+{% block content %}
+<div style="text-align:center; padding:2rem 1rem;">
+  <h2 style="color:#8B4513; font-size:2rem; margin-bottom:1rem;">Your Favorite Properties</h2>
+  
+  {% if favorites %}
+    <div style="max-width:1000px; margin:0 auto; display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:2rem;">
+      {% for fav in favorites %}
+        <div style="border:1px solid #ccc; padding:1rem; border-radius:8px; background:white; box-shadow:0 8px 16px rgba(0,0,0,0.1);">
+          <img src="{{ fav.property.image_main.url }}" alt="{{ fav.property.title }}" style="width:100%; height:auto; border-radius:8px;" />
+          <h3 style="margin:0.5rem 0; color:#333;">{{ fav.property.title }}</h3>
+          <p style="color:#555;">{{ fav.property.location_address }}</p>
+          <a href="{% url 'property_detail' fav.property.pk %}"
+             style="display:inline-block; padding:0.5rem 1rem; background:#8B4513; color:white; text-decoration:none; border-radius:6px; font-weight:bold; margin-top:0.5rem;">
+             View Property
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p style="color:#555; margin-top:2rem;">You have no favorites yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

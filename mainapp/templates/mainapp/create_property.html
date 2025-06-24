@@ -1,0 +1,42 @@
+{% extends 'mainapp/base.html' %}
+{% block title %}Create Property{% endblock %}
+{% block content %}
+<div style="text-align:center; padding:2rem 1rem;">
+  <h2 style="color:#8B4513; margin-bottom:1.5rem;">Create a New Property</h2>
+  
+  <form method="post" enctype="multipart/form-data" style="max-width:600px; margin:0 auto; text-align:left;">
+    {% csrf_token %}
+    <!-- Title -->
+    <label for="title" style="font-weight:bold;">Title:</label>
+    <input type="text" id="title" name="title" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
+
+    <!-- Description -->
+    <label for="description" style="font-weight:bold;">Description:</label>
+    <textarea id="description" name="description" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" rows="4"></textarea>
+
+    <!-- Price -->
+    <label for="price" style="font-weight:bold;">Price:</label>
+    <input type="number" id="price" name="price" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
+
+    <!-- Property Type -->
+    <label for="property_type" style="font-weight:bold;">Property Type:</label>
+    <input type="text" id="property_type" name="property_type" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
+
+    <!-- Location Address -->
+    <label for="location_address" style="font-weight:bold;">Location Address:</label>
+    <input type="text" id="location_address" name="location_address" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
+
+    <!-- Image Upload -->
+    <label for="image_main" style="font-weight:bold;">Main Image:</label>
+    <input type="file" id="image_main" name="image_main" accept="image/*" style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
+
+    <!-- Save Button -->
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button type="submit"
+              style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "mainapp/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<h2>Create an Account</h2>
+<form method="post" style="max-width:400px; margin:2rem auto;">
+  {% csrf_token %}
+  <label>First name:</label>
+  <input type="text" name="first_name" required style="width:100%; padding:0.5rem; margin-bottom:1rem;">
+
+  <label>Last name:</label>
+  <input type="text" name="last_name" required style="width:100%; padding:0.5rem; margin-bottom:1rem;">
+
+  <label>Email:</label>
+  <input type="email" name="email" required style="width:100%; padding:0.5rem; margin-bottom:1rem;">
+
+  <label>Username:</label>
+  <input type="text" name="username" required style="width:100%; padding:0.5rem; margin-bottom:1rem;">
+
+  <label>Password:</label>
+  <input type="password" name="password" required style="width:100%; padding:0.5rem; margin-bottom:1rem;">
+
+  <label>Confirm Password:</label>
+  <input type="password" name="password2" required style="width:100%; padding:0.5rem; margin-bottom:1rem;">
+
+  <button type="submit" style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px;">Register</button>
+</form>
+<p style="text-align:center;">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+{% endblock %}
+

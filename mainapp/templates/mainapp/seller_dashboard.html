@@ -1,0 +1,29 @@
+{% extends 'mainapp/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<div style="text-align:center; margin-top:2rem; margin-bottom:2rem;">
+  <h2 style="color:#8B4513; margin-bottom:1rem;">Your Properties</h2>
+  <a href="{% url 'create_property' %}"
+     style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">
+    Add Property
+  </a>
+</div>
+
+<div style="max-width:800px; margin:0 auto;">
+  {% for property in properties %}
+    <div style="border:1px solid #ccc; padding:1rem; margin-bottom:1rem; border-radius:8px;">
+      <h3>{{ property.title }}</h3>
+      <div style="margin-top:0.5rem;">
+        <a href="{% url 'edit_property' property.pk %}"
+           style="margin-right:1rem; color:#8B4513; text-decoration:none; font-weight:bold;">Edit</a>
+        <a href="{% url 'mark_as_sold' property.pk %}"
+           style="color:red; text-decoration:none; font-weight:bold;">Mark as Sold</a>
+      </div>
+    </div>
+  {% empty %}
+    <p style="text-align:center; color:#555;">You have no properties listed yet.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

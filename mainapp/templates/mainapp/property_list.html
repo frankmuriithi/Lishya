@@ -1,0 +1,15 @@
+{% extends 'mainapp/base.html' %}
+{% block title %}Properties{% endblock %}
+{% block content %}
+<h2 style="text-align:center; color:#8B4513;">Available Properties</h2>
+<div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;">
+  {% for property in properties %}
+    <div style="width:300px; border:1px solid #ccc; padding:1rem; border-radius:8px;">
+      <img src="{{ property.image_main.url }}" alt="" style="width:100%; border-radius:8px;" />
+      <h3>{{ property.title }}</h3>
+      <p>${{ property.price }}</p>
+      <a href="{% url 'property_detail' property.pk %}" style="color:#8B4513;">More Info</a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
