@@ -65,7 +65,10 @@
           <li><a href="{% url 'index' %}">Home</a></li>
           <li><a href="{% url 'property_list' %}">Properties</a></li>
           <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
-          <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
+          {% if request.user.is_authenticated and request.user.is_superuser %}
+            <!-- Only superuser (you) will see the dashboard -->
+            <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
+          {% endif %}
           {% if request.user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
