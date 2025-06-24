@@ -2,14 +2,44 @@
 {% block title %}Properties{% endblock %}
 {% block content %}
 <h2 style="text-align:center; color:#8B4513;">Available Properties</h2>
-<div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;">
+<div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; padding:1rem;">
   {% for property in properties %}
-    <div style="width:300px; border:1px solid #ccc; padding:1rem; border-radius:8px;">
-      <img src="{{ property.image_main.url }}" alt="" style="width:100%; border-radius:8px;" />
-      <h3>{{ property.title }}</h3>
-      <p>${{ property.price }}</p>
-      <a href="{% url 'property_detail' property.pk %}" style="color:#8B4513;">More Info</a>
+    <div style="width:300px; border:1px solid #ccc; padding:1rem; border-radius:8px; position:relative; background:#f8f8f8;">
+      <div style="position:relative; width:100%; height:auto;">
+        <img src="{{ property.image_main.url }}" alt="{{ property.title }}" style="width:100%; border-radius:8px;" />
+
+        {% if not property.is_available %}
+          <!-- Sold Overlay -->
+          <div style="
+            position:absolute;
+            top:0; left:0;
+            width:100%; height:100%;
+            background:rgba(0,0,0,0.5);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:1.5rem;
+            font-weight:bold;
+            border-radius:8px;
+          ">
+            SOLD
+          </div>
+        {% endif %}
+      </div>
+
+      <h3 style="margin-top:0.5rem;">{{ property.title }}</h3>
+      <p style="margin:0.5rem 0;">${{ property.price }}</p>
+
+      {% if property.is_available %}
+        <a href="{% url 'property_detail' property.pk %}"
+           style="color:#8B4513; font-weight:bold; text-decoration:none;">More Info</a>
+      {% else %}
+        <span style="color:#999; font-style:italic;">No longer available</span>
+      {% endif %}
     </div>
+  {% empty %}
+    <p style="text-align:center; color:#555;">No properties found at the moment.</p>
   {% endfor %}
 </div>
 {% endblock %}
