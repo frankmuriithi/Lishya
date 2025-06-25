@@ -1,0 +1,14 @@
+{% extends "mainapp/base.html" %}
+{% block title %}Request a Meeting{% endblock %}
+{% block content %}
+<div style="max-width:600px; margin:2rem auto; padding:2rem; background:#f8f8f8; border-radius:12px;">
+  <h2 style="color:#8B4513;">Request a Coffee/Meeting</h2>
+  <p>Discuss <strong>{{ property.title }}</strong> with the seller over coffee.</p>
+  <form method="post">
+    {% csrf_token %}
+    <textarea name="message" placeholder="Your message to the seller" required style="width:100%; padding:0.7rem; min-height:120px; border-radius:8px; border:1px solid #ccc; margin-bottom:1rem;"></textarea>
+    <input type="datetime-local" name="preferred_date" style="margin-bottom:1rem; width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc;" />
+    <button type="submit" style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px; cursor:pointer;">Send Request</button>
+  </form>
+</div>
+{% endblock %}

@@ -8,11 +8,17 @@ urlpatterns = [
     path('properties/<int:pk>/', views.property_detail, name='property_detail'),
     path('buyers/', views.buyers, name='buyers'),
     path('about/', views.about, name='about'),
+    path('contact/', views.contact_page, name='contact_page'),
+    path('subscribe/', views.subscribe, name='subscribe'),
+
+
 
     # ❤️ Favorites & Messages
     path('properties/<int:pk>/favorite/', views.add_to_favorites, name='add_to_favorites'),
     path('favorites/', views.view_favorites, name='view_favorites'),
     path('properties/<int:property_id>/message/', views.send_message, name='send_message'),
+    path('properties/<int:property_id>/request-meeting/', views.meeting_request, name='meeting_request'),
+
 
     # ✍️ Authentication
     path('register/', views.register, name='register'),

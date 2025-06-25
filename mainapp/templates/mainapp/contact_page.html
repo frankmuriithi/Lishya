@@ -1,0 +1,29 @@
+{% extends 'mainapp/base.html' %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div style="max-width:600px; margin:3rem auto; padding:2rem; background:#f8f8f8; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
+  <h2 style="color:#8B4513; margin-bottom:1rem;">Get in Touch</h2>
+  <p style="margin-bottom:1.5rem;">Have a question, need help, or want to schedule a meeting? Fill out the form below, and we'll get back to you as soon as possible.</p>
+  <form action="{% url 'contact_page' %}" method="post" style="text-align:left;">
+    {% csrf_token %}
+    <div style="margin-bottom:1rem;">
+      <label for="name" style="font-weight:bold;">Your Name:</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required
+             style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; margin-top:0.3rem;" />
+    </div>
+    <div style="margin-bottom:1rem;">
+      <label for="email" style="font-weight:bold;">Your Email:</label>
+      <input type="email" id="email" name="email" placeholder="Your email address" required
+             style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; margin-top:0.3rem;" />
+    </div>
+    <div style="margin-bottom:1rem;">
+      <label for="message" style="font-weight:bold;">Your Message:</label>
+      <textarea id="message" name="message" placeholder="Your message or meeting request" required
+                style="width:100%; padding:0.7rem; min-height:120px; border-radius:8px; border:1px solid #ccc; margin-top:0.3rem;"></textarea>
+    </div>
+    <button type="submit"
+            style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Send Message</button>
+  </form>
+</div>
+{% endblock %}

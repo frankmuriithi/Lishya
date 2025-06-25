@@ -12,63 +12,90 @@
       background: white;
       font-family: Arial, sans-serif;
     }
-    .orange-section { background: #8B4513; padding-bottom: 4rem; position: relative; }
+    .orange-section {
+      background: #8B4513;
+      padding-bottom: 4rem;
+      position: relative;
+    }
     .pop-image {
       cursor: pointer;
       opacity: 0;
       transform: translateY(50px) scale(1);
       transition: opacity 1s ease-out, transform 1s ease-out;
     }
-    .pop-image.visible { opacity: 1; transform: translateY(0) scale(1); }
-    .pop-image:hover { transform: scale(1.08); box-shadow: 0 12px 24px rgba(0,0,0,0.3); }
+    .pop-image.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .pop-image:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+    }
     .logo-container {
       position: fixed;
-      top: 1rem;
+      top: 3rem;
       left: 1rem;
       z-index: 1000;
-      padding: 0.5rem;
+      padding: 0.3rem;
       border-radius: 50%;
       transition: background 0.3s ease;
     }
     .floating-logo {
-      width: 220px;
+      width: 120px;
       height: auto;
       display: block;
     }
+    header {
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     header ul {
-      list-style:none; padding:0; margin:0; display:flex; gap:2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 2rem;
     }
     header a {
-      color:white;
-      text-decoration:none;
-      font-weight:500;
-      font-size:1.2rem;
-      padding:0.3rem 0.8rem;
-      border-radius:8px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.2rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
       transition: background 0.3s, color 0.3s;
     }
     header a:hover {
-      background:white;
-      color:#8B4513;
+      background: white;
+      color: #8B4513;
     }
   </style>
 </head>
 <body>
   <!-- Floating Logo -->
-  <div class="logo-container"><img src="{% static 'mainapp/images/at_.png' %}" alt="Logo" class="floating-logo" /></div>
+  <div class="logo-container">
+    <img src="{% static 'mainapp/images/at_.png' %}" alt="Logo" class="floating-logo" />
+  </div>
 
   <!-- Orange Header -->
   <div class="orange-section">
-    <header style="padding:1rem 2rem; display:flex; align-items:center; justify-content:flex-end;">
-      <nav>
-        <ul>
+    <header>
+      <!-- Left-side links -->
+      <nav style="display:flex; flex:1; justify-content:space-between; align-items:center;">
+        <ul style="display:flex; gap:2rem;">
           <li><a href="{% url 'index' %}">Home</a></li>
           <li><a href="{% url 'property_list' %}">Properties</a></li>
           <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
           {% if request.user.is_authenticated and request.user.is_superuser %}
-            <!-- Only superuser (you) will see the dashboard -->
             <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
           {% endif %}
+        </ul>
+
+        <!-- Right-side links -->
+        <ul style="display:flex; gap:2rem;">
           {% if request.user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
@@ -80,17 +107,27 @@
     </header>
   </div>
 
-  <!-- Main Content Block -->
-  {% block content %}
-  <!-- Child templates will insert their contents here -->
-  {% endblock content %}
+  <!-- Main Content -->
+  {% block content %}{% endblock content %}
 
   <!-- Footer -->
   <footer style="padding:1rem; color:white; background:#333; text-align:center;">
     &copy; 2025 Ruiru Real Estate. All rights reserved.
+    <div style="margin-top:1rem; display:flex; gap:1rem; justify-content:center;">
+      {% if seller_profile.facebook_url %}
+        <a href="{{ seller_profile.facebook_url }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      {% endif %}
+      {% if seller_profile.instagram_url %}
+        <a href="{{ seller_profile.instagram_url }}" target="_blank"><i class="fab fa-instagram"></i></a>
+      {% endif %}
+      {% if seller_profile.linkedin_url %}
+        <a href="{{ seller_profile.linkedin_url }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      {% endif %}
+    </div>
   </footer>
 
-  <!-- Intersection Observer to fade in images and float logo background color -->
+
+  <!-- Intersection Observer Script -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const images = document.querySelectorAll('.pop-image');

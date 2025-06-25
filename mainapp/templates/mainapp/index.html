@@ -53,13 +53,21 @@
     <div style="background:white; padding:3rem 2rem; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); max-width:600px; margin:0 auto;">
       <h1 style="font-family:'Playfair Display', serif;">Let's chat</h1>
       <h2 style="font-family:'Playfair Display', serif;">Ready to meet?</h2>
-      <a href="mailto:yourbusiness@example.com"
-         style="display:inline-block; margin-top:1rem; padding:0.7rem 1.5rem; background:#ff8c42; color:white; text-decoration:none; border-radius:8px;">Let us buy you a coffee</a>
+
+      {% if property %}
+        <!-- Only show this if a `property` object is available -->
+        <a href="{% url 'meeting_request' property.pk %}"
+           style="display:inline-block; padding:0.7rem 1.5rem; background:#ff8c42; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">Let us buy you a coffee</a>
+      {% else %}
+        <!-- Fallback generic contact link -->
+        <a href="{% url 'contact_page' %}"
+           style="display:inline-block; padding:0.7rem 1.5rem; background:#ff8c42; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">Let us buy you a coffee</a>
+      {% endif %}
     </div>
 
     <!-- Footer links -->
     <div style="margin-top:10rem; display:flex; align-items:center; justify-content:space-between; padding:0 2rem;">
-      <a href="mailto:yourbusiness@example.com" style="color:black; text-decoration:underline;">Get on our mailing list</a>
+      <a href="{% url 'subscribe' %}" style="color:black; text-decoration:underline;">Get on our mailing list</a>
       <div style="display:flex; gap:1rem;">
         <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
         <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>

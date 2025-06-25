@@ -12,6 +12,24 @@ class SellerProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+
+# mainapp/models.py
+class SellerProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='seller_profile')
+    company_name = models.CharField(max_length=255, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='mainapp/sellers/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+    is_verified = models.BooleanField(default=False)
+
+    facebook_url = models.URLField(blank=True, null=True)
+    instagram_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
 
 # Property model
 class Property(models.Model):
@@ -100,4 +118,27 @@ class Report(models.Model):
 
     def __str__(self):
         return f"{self.report_type} report by {self.reported_by.username}"
+    
+    # models.py
+class MeetingRequest(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='meeting_requests')
+    seller = models.ForeignKey(SellerProfile, on_delete=models.CASCADE, related_name='meeting_requests')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, blank=True, null=True)
+    message = models.TextField()
+    preferred_date = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('declined', 'Declined')],
+        default='pending'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+
 

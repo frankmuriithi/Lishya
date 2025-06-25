@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 
-from .models import Property, SellerProfile, Favorite, Message, BuyerProfile, Report
+from .models import Property, SellerProfile, Favorite, Message, BuyerProfile, Report, MeetingRequest, Subscriber
 
 # ==================== Authentication Views ====================
 
@@ -208,4 +208,51 @@ def view_reports(request):
     reports = Report.objects.all()
     return render(request, 'mainapp/view_reports.html', {'reports': reports})
 
+@login_required
+def meeting_request(request, property_id):
+    prop = get_object_or_404(Property, pk=property_id)
+    seller = prop.seller
+    if request.method == "POST":
+        message = request.POST.get('message')
+        preferred_date = request.POST.get('preferred_date')
+        if message:
+            MeetingRequest.objects.create(
+                buyer=request.user,
+                seller=seller,
+                property=prop,
+                message=message,
+                preferred_date=preferred_date or None,
+            )
+            messages.success(request, "Your meeting request was sent successfully!")
+        return redirect('property_detail', pk=property_id)
+    return render(request, 'mainapp/meeting_request.html', {'property': prop})
+
+# ==================== Contact Page ====================
+
+def contact_page(request):
+    """
+    Display a contact page with a simple form allowing visitors
+    to send a message or schedule a meeting.
+    """
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        # You could send this to your email or save it to DB
+        # For now, we'll just show a success message.
+        if name and email and message:
+            messages.success(request, "Thanks for reaching out! We'll get back to you shortly.")
+        else:
+            messages.error(request, "Please fill all the fields before submitting!")
+    return render(request, 'mainapp/contact_page.html')
+
+
+def subscribe(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        if email:
+            Subscriber.objects.get_or_create(email=email)
+            messages.success(request, "Thanks for subscribing to our mailing list!")
+        return redirect('subscribe')
+    return render(request, 'mainapp/subscribe.html')
 
