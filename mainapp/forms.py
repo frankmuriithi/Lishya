@@ -33,9 +33,7 @@ class PropertyForm(forms.ModelForm):
         model = Property
         fields = [
             'title', 'description', 'property_type', 'price',
-            'location_address', 'image_main', 'image_gallery_1',
-            'image_gallery_2', 'image_gallery_3', 'amenities', 'floor_plan',
-            'is_available'
+            'location_address', 'image_main'
         ]
 
 

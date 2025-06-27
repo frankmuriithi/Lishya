@@ -6,6 +6,7 @@
   
   <form method="post" enctype="multipart/form-data" style="max-width:600px; margin:0 auto; text-align:left;">
     {% csrf_token %}
+
     <!-- Title -->
     <label for="title" style="font-weight:bold;">Title:</label>
     <input type="text" id="title" name="title" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
@@ -18,9 +19,15 @@
     <label for="price" style="font-weight:bold;">Price:</label>
     <input type="number" id="price" name="price" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
 
-    <!-- Property Type -->
+    <!-- Property Type Dropdown -->
     <label for="property_type" style="font-weight:bold;">Property Type:</label>
-    <input type="text" id="property_type" name="property_type" required style="width:100%; padding:0.5rem; margin-bottom:1rem;" />
+    <select id="property_type" name="property_type" required style="width:100%; padding:0.5rem; margin-bottom:1rem;">
+      <option value="">-- Select Property Type --</option>
+      <option value="house">House</option>
+      <option value="land">Land</option>
+      <option value="apartment">Apartment</option>
+      <option value="commercial">Commercial</option>
+    </select>
 
     <!-- Location Address -->
     <label for="location_address" style="font-weight:bold;">Location Address:</label>

@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
+from .forms import PropertyForm
 
 from .models import Property, SellerProfile, Favorite, Message, BuyerProfile, Report, MeetingRequest, Subscriber
 
@@ -77,7 +78,7 @@ def about(request):
 
 def property_list(request):
     search = request.GET.get('q')
-    props = Property.objects.filter(is_available=True)
+    props = Property.objects.all()
     if search:
         props = props.filter(
             Q(title__icontains=search) |
@@ -163,17 +164,18 @@ def create_property(request):
 @login_required
 def edit_property(request, pk):
     prop = get_object_or_404(Property, pk=pk, seller__user=request.user)
+    
     if request.method == "POST":
-        prop.title = request.POST.get('title')
-        prop.description = request.POST.get('description')
-        prop.price = request.POST.get('price')
-        prop.location_address = request.POST.get('location_address')
-        if request.FILES.get('image_main'):
-            prop.image_main = request.FILES.get('image_main')
-        prop.save()
-        messages.success(request, "Property updated!")
-        return redirect('seller_dashboard')
-    return render(request, 'mainapp/edit_property.html', {'property': prop})
+        form = PropertyForm(request.POST, request.FILES, instance=prop)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Property updated!")
+            return redirect('seller_dashboard')
+    else:
+        form = PropertyForm(instance=prop)
+    
+    # ✅ Always return a response
+    return render(request, 'mainapp/edit_property.html', {'form': form})
 
 
 @login_required

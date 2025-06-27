@@ -1,0 +1,151 @@
+/* === mobile.css === */
+
+/* 1. Responsive Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* 2. Body and Typography */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+/* 3. Header Navigation */
+header {
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+header a {
+  color: white;
+  font-size: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  background: #8B4513;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+header a:hover {
+  background: white;
+  color: #8B4513;
+}
+
+/* 4. Logo Container */
+.logo-container {
+  width: 120px;
+  left: 1rem;
+  top: 1rem;
+  position: fixed;
+  z-index: 1000;
+}
+
+.floating-logo {
+  width: 100%;
+}
+
+/* 5. Sections */
+section {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+/* 6. Forms */
+form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+button {
+  background: #8B4513;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #a75a25;
+}
+
+/* 7. Property Cards */
+.property-card {
+  width: 100%;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* 8. Footer */
+footer {
+  padding: 1rem;
+  background: #333;
+  color: white;
+  text-align: center;
+}
+
+/* 9. Media Query for Devices < 768px */
+@media (max-width: 768px) {
+  .orange-section {
+    padding-bottom: 2rem;
+  }
+
+  header nav ul {
+    flex-direction: column;
+  }
+
+  .property-card {
+    width: 100% !important;
+  }
+
+  .logo-container {
+    width: 100px;
+    top: 0.5rem;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.5rem;
+  }
+
+  .footer-links, .social-icons {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}

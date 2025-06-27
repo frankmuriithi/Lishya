@@ -10,26 +10,14 @@ class SellerProfile(models.Model):
     bio = models.TextField(blank=True, null=True)
     is_verified = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.user.username
     
-
-# mainapp/models.py
-class SellerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='seller_profile')
-    company_name = models.CharField(max_length=255, blank=True, null=True)
-    phone_number = models.CharField(max_length=20, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='mainapp/sellers/', blank=True, null=True)
-    bio = models.TextField(blank=True, null=True)
-    is_verified = models.BooleanField(default=False)
-
     facebook_url = models.URLField(blank=True, null=True)
     instagram_url = models.URLField(blank=True, null=True)
     linkedin_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username
-
+    
 
 # Property model
 class Property(models.Model):
