@@ -50,4 +50,155 @@
     </a>
   </div>
 </section>
+<section style="padding: 3rem 1rem; background: #f9f5f2;">
+  <div style="max-width: 1000px; margin: auto; text-align: center;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #8B4513;">Our Reviews</h1>
+    <p style="font-size: 1.1rem; color: #555; margin-top: 1rem;">
+      Essy Properties is your trusted partner in the journey of home ownership and real estate investment. With a strong presence in Ruiru and its surroundings, our mission is to make buying and selling property simple, transparent, and enjoyable. Whether you're searching for a cozy apartment, a family home, or a prime piece of land, we’ve got you covered.
+    </p>
+  </div>
+
+  <div style="max-width: 1000px; margin: 3rem auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+    <div class="reveal-box">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Our Vision</h3>
+      <div class="slide-reveal">
+        <p>To be the leading real estate platform in Kenya, offering exceptional service and creating lasting value for our clients.</p>
+      </div>
+    </div>
+
+    <div class="reveal-box">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Our Mission</h3>
+      <div class="slide-reveal">
+        <p>To empower buyers with tools and guidance, and provide sellers a reliable platform to connect with real prospects.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section style="padding: 4rem 1rem; background: #fff8f0; position: relative; overflow: hidden;">
+  <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #8B4513;">What Our Clients Say</h2>
+    <p style="color: #666; margin-bottom: 2rem;">Real stories from happy buyers and satisfied sellers.</p>
+  </div>
+
+  <div id="testimonial-carousel" class="testimonial-box">
+    <div class="testimonial-background" id="testimonial-bg"></div>
+    <p id="testimonial-text">“Essy Properties made it so easy to find our dream home in Ruiru. The team was super helpful and responsive!”</p>
+    <p id="testimonial-author">— James & Irene</p>
+  </div>
+</section>
+
+<style>
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-box {
+  flex: 1 1 300px;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-reveal {
+  position: relative;
+  overflow: hidden;
+  height: 0;
+  transition: height 0.5s ease, opacity 0.5s ease;
+  background: #8B4513;
+  color: white;
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  opacity: 0;
+}
+
+.reveal-box:hover .slide-reveal {
+  height: auto;
+  padding: 1rem;
+  opacity: 1;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.testimonial-box {
+  max-width: 700px;
+  margin: 0 auto;
+  background: transparent;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+}
+
+.testimonial-background {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #8B4513;
+  border-radius: 12px;
+  z-index: -1;
+  transform: translateY(100%);
+  animation: slideUp 1s ease forwards;
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+#testimonial-text, #testimonial-author {
+  color: white;
+  font-size: 1.1rem;
+  transition: opacity 0.5s ease;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+#testimonial-author {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-style: normal;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const testimonials = [
+    { text: "Essy Properties made it so easy to find our dream home in Ruiru. The team was super helpful and responsive!", author: "— James & Irene" },
+    { text: "I listed my land on the platform and got serious buyers within a week. Smooth, professional experience!", author: "— Lucy M." },
+    { text: "From search to closing the deal, I felt guided every step of the way. Essy Properties is truly a gem!", author: "— Kevin N." }
+  ];
+
+  let current = 0;
+  const textEl = document.getElementById('testimonial-text');
+  const authorEl = document.getElementById('testimonial-author');
+  const bgEl = document.getElementById('testimonial-bg');
+
+  setInterval(() => {
+    current = (current + 1) % testimonials.length;
+    textEl.style.opacity = 0;
+    authorEl.style.opacity = 0;
+    bgEl.style.animation = 'none';
+    bgEl.offsetHeight; // force reflow
+    bgEl.style.animation = 'slideUp 1s ease forwards';
+
+    setTimeout(() => {
+      textEl.textContent = `“${testimonials[current].text}”`;
+      authorEl.textContent = testimonials[current].author;
+      textEl.style.opacity = 1;
+      authorEl.style.opacity = 1;
+    }, 500);
+  }, 7000);
+});
+</script>
+
 {% endblock %}
+
