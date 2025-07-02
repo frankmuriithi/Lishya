@@ -1,8 +1,56 @@
-{% extends "mainapp/base.html" %}
-{% block title %}Buyer Info{% endblock %}
+{% extends 'mainapp/base.html' %}
+{% block title %}Buyer's Guide | Ruiru Real Estate{% endblock %}
+
 {% block content %}
-<section style="padding:2rem 1rem; background:white; text-align:center;">
-  <h2 style="font-family:'Playfair Display', serif;">Buyer Information</h2>
-  <p style="max-width:600px; margin:1rem auto;">Here is all the info you need as a buyer. Explore listings, financing options, and more.</p>
+<section style="padding: 3rem 1rem; background: #f9f5f2;">
+  <div style="max-width: 1000px; margin: auto; text-align: center;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #8B4513;">Welcome to the Buyer's Guide</h1>
+    <p style="font-size: 1.1rem; color: #555; margin-top: 1rem;">
+      Your journey to finding the perfect home starts here! Whether you're a first-time buyer or a seasoned investor,
+      this guide will give you all the confidence and tools to make smart, informed decisions.
+    </p>
+  </div>
+
+  <!-- Key Steps -->
+  <div style="max-width: 1000px; margin: 3rem auto; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">1. Define Your Budget</h3>
+      <p style="color: #444;">Know what you can comfortably afford. Consider down payment, loan eligibility, and extra costs like legal fees.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">2. Explore Listings</h3>
+      <p style="color: #444;">Use our <a href="{% url 'property_list' %}" style="color:#8B4513; text-decoration:underline;">Properties Page</a> to browse available homes based on location, type, and price.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">3. Schedule a Viewing</h3>
+      <p style="color: #444;">Click <strong>"Let us buy you a coffee"</strong> to request a meetup with the seller and get a feel of the property in person.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">4. Ask Questions</h3>
+      <p style="color: #444;">Use the <strong>Contact Seller</strong> feature to ask anything about the home — condition, documents, neighborhood, etc.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">5. Save Favorites</h3>
+      <p style="color: #444;">Click the heart icon on listings you love to add them to your <a href="{% url 'view_favorites' %}" style="color:#8B4513; text-decoration:underline;">Favorites</a> page for quick access.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">6. Close the Deal</h3>
+      <p style="color: #444;">Once you’re happy, proceed with negotiations and paperwork. Our team is ready to assist every step of the way.</p>
+    </div>
+  </div>
+
+  <!-- Encouragement CTA -->
+  <div style="text-align: center; padding: 2rem 1rem;">
+    <h2 style="font-family: 'Playfair Display', serif; color: #333;">Still have questions?</h2>
+    <a href="{% url 'contact_page' %}"
+       style="background: #8B4513; color: white; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
+       Contact Us
+    </a>
+  </div>
 </section>
 {% endblock %}

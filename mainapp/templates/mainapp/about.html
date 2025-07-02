@@ -1,8 +1,53 @@
 {% extends 'mainapp/base.html' %}
-{% block title %}About Us{% endblock %}
+{% block title %}About Essy Properties{% endblock %}
+
 {% block content %}
-<div style="max-width: 600px; margin: 3rem auto; padding: 2rem; background: #f8f8f8; border-radius: 12px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.1);">
-  <h2 style="color:#8B4513; margin-bottom:1rem;">About Ruiru Real Estate</h2>
-  <p style="margin-bottom:1.5rem; color:#333;">We specialize in real estate solutions tailored to your needs. Our experienced team is committed to delivering the best property services for buyers and sellers alike.</p>
-</div>
+<section style="padding: 3rem 1rem; background: #f9f5f2;">
+  <div style="max-width: 1000px; margin: auto; text-align: center;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #8B4513;">About Essy Properties</h1>
+    <p style="font-size: 1.1rem; color: #555; margin-top: 1rem;">
+      Welcome to Essy Properties — your trusted real estate partner nestled in the heart of Ruiru. We're here to simplify the journey of buying and selling properties with elegance, transparency, and heart.
+    </p>
+  </div>
+
+  <div style="max-width: 1000px; margin: 3rem auto; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Who We Are</h3>
+      <p style="color: #444;">Essy Properties is a locally rooted, superuser-managed real estate platform designed to serve all property seekers across Ruiru and beyond. We're not just agents — we’re matchmakers for homes and hearts.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">What We Do</h3>
+      <p style="color: #444;">We list and showcase top-notch properties for sale. From elegant houses to spacious plots, every listing is uploaded by our verified seller to ensure you’re seeing the best of what’s available.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Why Choose Us?</h3>
+      <p style="color: #444;">With a clean, user-friendly interface and features like favorites, seller messaging, meeting requests, and mobile optimization — we bring modern real estate to your fingertips.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">One Seller, Personalized Service</h3>
+      <p style="color: #444;">All properties on this platform are uploaded and managed by one trusted seller (our superuser), ensuring consistency, direct communication, and top-tier service at every step.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Our Mission</h3>
+      <p style="color: #444;">To redefine local real estate with technology, trust, and transparency — helping buyers find a place they’ll proudly call home.</p>
+    </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Let’s Connect</h3>
+      <p style="color: #444;">Reach out, book a meeting, or send us a message. We love turning your dreams into addresses.</p>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 2rem 1rem;">
+    <h2 style="font-family: 'Playfair Display', serif; color: #333;">Ready to find your next home?</h2>
+    <a href="{% url 'property_list' %}"
+       style="background: #8B4513; color: white; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
+       Browse Properties
+    </a>
+  </div>
+</section>
 {% endblock %}
