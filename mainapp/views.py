@@ -100,7 +100,7 @@ def add_to_favorites(request, pk):
     prop = get_object_or_404(Property, pk=pk)
     Favorite.objects.get_or_create(buyer=request.user, property=prop)
     messages.success(request, "Added to favorites!")
-    return redirect('property_detail', pk=pk)
+    return redirect('property_list')
 
 
 @login_required

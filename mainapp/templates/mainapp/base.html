@@ -8,31 +8,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'mainapp/css/mobile.css' %}">
+
   <style>
     body {
       margin: 0;
       background: white;
       font-family: Arial, sans-serif;
     }
+
     .orange-section {
       background: #8B4513;
       padding-bottom: 4rem;
       position: relative;
     }
+
     .pop-image {
       cursor: pointer;
       opacity: 0;
       transform: translateY(50px) scale(1);
       transition: opacity 1s ease-out, transform 1s ease-out;
     }
+
     .pop-image.visible {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
+
     .pop-image:hover {
       transform: scale(1.08);
       box-shadow: 0 12px 24px rgba(0,0,0,0.3);
     }
+
     .logo-container {
       position: fixed;
       top: 3rem;
@@ -42,35 +48,50 @@
       border-radius: 50%;
       transition: background 0.3s ease;
     }
+
     .floating-logo {
       width: 120px;
       height: auto;
       display: block;
     }
-    
-  @media (max-width: 768px) {
-    .floating-logo {
-      width: 100px;
-    }
 
-    .logo-container {
-      padding: 0.3rem;
-    }
-  }
-    header {
+    /* ===================== NAVIGATION ===================== */
+    .site-header {
       padding: 1rem 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    header ul {
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .nav-left-wrap,
+    .nav-right-wrap {
+      display: flex;
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      flex-direction: row;
       list-style: none;
+      gap: 2rem;
       padding: 0;
       margin: 0;
-      display: flex;
-      gap: 2rem;
     }
-    header a {
+
+    .nav-left li,
+    .nav-right li {
+      white-space: nowrap;
+    }
+
+    .navbar a {
       color: white;
       text-decoration: none;
       font-weight: 500;
@@ -79,13 +100,48 @@
       border-radius: 8px;
       transition: background 0.3s, color 0.3s;
     }
-    header a:hover {
+
+    .navbar a:hover {
       background: white;
       color: #8B4513;
     }
 
+    /* =================== RESPONSIVE =================== */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .nav-left-wrap,
+      .nav-right-wrap {
+        width: 100%;
+      }
+
+      .nav-left,
+      .nav-right {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .navbar a {
+        display: block;
+        width: 100%;
+      }
+
+      .floating-logo {
+        width: 100px;
+      }
+
+      .logo-container {
+        padding: 0.3rem;
+      }
+    }
   </style>
 </head>
+
 <body>
   <!-- Floating Logo -->
   <div class="logo-container">
@@ -94,28 +150,32 @@
 
   <!-- Orange Header -->
   <div class="orange-section">
-    <header>
-      <!-- Left-side links -->
-      <nav style="display:flex; flex:1; justify-content:space-between; align-items:center;">
-        <ul style="display:flex; gap:2rem;">
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'property_list' %}">Properties</a></li>
-          <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
-          {% if request.user.is_authenticated and request.user.is_superuser %}
-            <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
-          {% endif %}
-        </ul>
+    <header class="site-header">
+      <nav class="navbar">
+        <!-- Left-side nav -->
+        <div class="nav-left-wrap">
+          <ul class="nav-left">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'property_list' %}">Properties</a></li>
+            <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+              <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
+            {% endif %}
+          </ul>
+        </div>
 
-        <!-- Right-side links -->
-        <ul style="display:flex; gap:2rem;">
-          {% if request.user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-          {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
-          {% endif %}
-        </ul>
+        <!-- Right-side nav -->
+        <div class="nav-right-wrap">
+          <ul class="nav-right">
+            {% if request.user.is_authenticated %}
+              <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Login</a></li>
+              <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+          </ul>
+        </div>
       </nav>
     </header>
   </div>
@@ -139,18 +199,19 @@
     </div>
   </footer>
 
-
-  <!-- Intersection Observer Script -->
+  <!-- Scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const images = document.querySelectorAll('.pop-image');
-      const options = { threshold: 0.2 };
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
         });
-      }, options);
+      }, { threshold: 0.2 });
       images.forEach(img => observer.observe(img));
+
       const logoContainer = document.querySelector('.logo-container');
       const sections = document.querySelectorAll('section, .orange-section');
       const colorObserver = new IntersectionObserver((entries) => {
@@ -162,9 +223,8 @@
       }, { threshold: 0.3 });
       sections.forEach(section => colorObserver.observe(section));
     });
-  </script>
-  <script>
-    function toggleVisibility(id){
+
+    function toggleVisibility(id) {
       const el = document.getElementById(id);
       el.style.display = el.style.display === "none" ? "block" : "none";
     }

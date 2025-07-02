@@ -5,6 +5,7 @@
 <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; padding:1rem;">
   {% for property in properties %}
     <div style="width:300px; border:1px solid #ccc; padding:1rem; border-radius:8px; position:relative; background:#f8f8f8;">
+      
       <div style="position:relative; width:100%; height:auto;">
         <img src="{{ property.image_main.url }}" alt="{{ property.title }}" style="width:100%; border-radius:8px;" />
 
@@ -32,8 +33,9 @@
       <p style="margin:0.5rem 0;">${{ property.price }}</p>
 
       {% if property.is_available %}
-        <a href="{% url 'property_detail' property.pk %}"
-           style="color:#8B4513; font-weight:bold; text-decoration:none;">More Info</a>
+        <a href="{% url 'property_detail' property.pk %}" style="color:#8B4513; font-weight:bold; text-decoration:none;">
+          More Info
+        </a>
       {% else %}
         <span style="color:#999; font-style:italic;">No longer available</span>
       {% endif %}
