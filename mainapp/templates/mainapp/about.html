@@ -50,30 +50,112 @@
     </a>
   </div>
 </section>
-<section style="padding: 3rem 1rem; background: #f9f5f2;">
+<!-- Reviews Section -->
+<section style="padding: 4rem 1rem; background: #f5f2ed;">
   <div style="max-width: 1000px; margin: auto; text-align: center;">
-    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #8B4513;">Our Reviews</h1>
-    <p style="font-size: 1.1rem; color: #555; margin-top: 1rem;">
-      Essy Properties is your trusted partner in the journey of home ownership and real estate investment. With a strong presence in Ruiru and its surroundings, our mission is to make buying and selling property simple, transparent, and enjoyable. Whether you're searching for a cozy apartment, a family home, or a prime piece of land, we’ve got you covered.
-    </p>
-  </div>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #8B4513;">Customer Reviews</h2>
+    <p style="color: #555;">Hover to reveal what our clients think about Essy Properties</p>
 
-  <div style="max-width: 1000px; margin: 3rem auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
-    <div class="reveal-box">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Our Vision</h3>
-      <div class="slide-reveal">
-        <p>To be the leading real estate platform in Kenya, offering exceptional service and creating lasting value for our clients.</p>
+    <div class="review-wrapper">
+      
+      <!-- Review Card -->
+      <div class="review-card">
+        <div class="review-bg"></div>
+        <div class="review-content">
+          <div class="stars">★★★★★</div>
+          <p>Essy Properties made the whole buying process feel so easy. I would highly recommend them to anyone looking in Ruiru.</p>
+          <p class="author">— David K.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="reveal-box">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Our Mission</h3>
-      <div class="slide-reveal">
-        <p>To empower buyers with tools and guidance, and provide sellers a reliable platform to connect with real prospects.</p>
+      <div class="review-card">
+        <div class="review-bg"></div>
+        <div class="review-content">
+          <div class="stars">★★★★☆</div>
+          <p>Very professional team. Responsive and transparent throughout. Slight delay in calls, but overall amazing!</p>
+          <p class="author">— Miriam N.</p>
+        </div>
       </div>
+
+      <div class="review-card">
+        <div class="review-bg"></div>
+        <div class="review-content">
+          <div class="stars">★★★★★</div>
+          <p>Absolutely loved working with Essy Properties. They matched me with the perfect home quickly and smoothly!</p>
+          <p class="author">— Peter M.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
+
+<style>
+.review-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.review-card {
+  position: relative;
+  flex: 1 1 300px;
+  max-width: 330px;
+  height: 260px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.review-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0%;
+  width: 100%;
+  background-color: #8B4513;
+  transition: height 0.5s ease;
+  z-index: 1;
+}
+
+.review-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  color: white;
+  padding: 2rem 1.5rem;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  font-style: italic;
+}
+
+.review-content .stars {
+  color: gold;
+  font-style: normal;
+  margin-bottom: 0.8rem;
+}
+
+.review-content .author {
+  font-weight: bold;
+  color: white;
+  font-style: normal;
+  margin-top: 1rem;
+}
+
+.review-card:hover .review-bg {
+  height: 100%;
+}
+
+.review-card:hover .review-content {
+  opacity: 1;
+}
+</style>
+
 
 <!-- Testimonials Section -->
 <section style="padding: 4rem 1rem; background: #fff8f0; position: relative; overflow: hidden;">
