@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from .forms import PropertyForm
+from django.core.mail import send_mail
 
 from .models import Property, SellerProfile, Favorite, Message, BuyerProfile, Report, MeetingRequest, Subscriber
 
@@ -234,18 +235,31 @@ def meeting_request(request, property_id):
 def contact_page(request):
     """
     Display a contact page with a simple form allowing visitors
-    to send a message or schedule a meeting.
+    to send a message or schedule a meeting via email.
     """
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
-        # You could send this to your email or save it to DB
-        # For now, we'll just show a success message.
+
         if name and email and message:
-            messages.success(request, "Thanks for reaching out! We'll get back to you shortly.")
+            subject = f"New message from {name} via contact page"
+            full_message = f"From: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+            try:
+                send_mail(
+                    subject,
+                    full_message,
+                    email,  # From user's email
+                    ['frankmuriithi2001@gmail.com'],  # ✅ Replace with your actual receiving email
+                    fail_silently=False,
+                )
+                messages.success(request, "Thanks for reaching out! Your message has been sent.")
+            except Exception as e:
+                messages.error(request, f"Failed to send message: {e}")
         else:
             messages.error(request, "Please fill all the fields before submitting!")
+
     return render(request, 'mainapp/contact_page.html')
 
 
@@ -279,3 +293,4 @@ def book_site_visit(request, pk):
 def booking_confirmation(request, pk):
     property_obj = get_object_or_404(Property, pk=pk)
     return render(request, 'mainapp/booking_confirmation.html', {'property': property_obj})
+

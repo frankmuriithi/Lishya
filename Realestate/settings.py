@@ -29,9 +29,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third-party apps (if any)
-    # ...
-    # Your app
     'mainapp',
 ]
 
@@ -50,7 +47,7 @@ ROOT_URLCONF = 'Realestate.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # global template directory if you want one
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,12 +92,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # for your global static files
-STATIC_ROOT = BASE_DIR / 'staticfiles'    # for production `collectstatic`
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Media files (user uploads like property images)
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -108,6 +105,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Auth settings
-LOGIN_URL = '/login/'               # where to redirect if not logged in
-LOGIN_REDIRECT_URL = '/'            # where to go after login
-LOGOUT_REDIRECT_URL = '/'           # where to go after logout
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# ========================================
+# ✅ EMAIL CONFIGURATION (for contact form)
+# ========================================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'frankmuriithi2001@gmail.com'  # ✅ Replace with your sender email
+EMAIL_HOST_PASSWORD = 'kxod vfpx lear caqx'       # ✅ Use App Password from Gmail
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

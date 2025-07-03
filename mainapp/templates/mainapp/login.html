@@ -12,6 +12,7 @@
 
   <button type="submit" style="width:100%; padding:0.7rem; background:#8B4513; color:white; border:none; border-radius:4px; font-size:1rem;">Login</button>
 
-  <p style="text-align:center; margin-top:1rem;">No account? <a href="{% url 'register' %}">Register here</a></p>
+  <p style="text-align:center; margin-top:1rem;"><p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+No account?<a href="{% url 'register' %}">Register here</a></p>
 </form>
 {% endblock %}
