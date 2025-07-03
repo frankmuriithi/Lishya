@@ -258,3 +258,24 @@ def subscribe(request):
         return redirect('subscribe')
     return render(request, 'mainapp/subscribe.html')
 
+
+def book_site_visit(request, pk):
+    property_obj = get_object_or_404(Property, pk=pk)
+    
+    if request.method == 'POST':
+        property_id = request.POST['property_id']
+        location = request.POST['location']
+        property_type = request.POST['property_type']
+        visit_date = request.POST['visit_date']
+        # Add booking logic here (e.g., save to database)
+        return render(request, 'mainapp/booking_confirmation.html', {
+            'property_id': property_id,
+            'location': location,
+            'property_type': property_type,
+            'visit_date': visit_date
+        })
+    return render(request, 'property_detail.html', {'property': property_obj})
+
+def booking_confirmation(request, pk):
+    property_obj = get_object_or_404(Property, pk=pk)
+    return render(request, 'mainapp/booking_confirmation.html', {'property': property_obj})

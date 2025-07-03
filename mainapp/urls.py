@@ -34,4 +34,12 @@ urlpatterns = [
     # ⚠️ Reports & Admin
     path('properties/<int:pk>/report/', views.report_issue, name='report_issue'),
     path('admin/reports/', views.view_reports, name='view_reports'),
+
+    #booking 
+     path('properties/<int:pk>/book-site-visit/', views.
+     
+    book_site_visit, name='book_site_visit'),
+
+    # 🗓️ Booking Confirmation
+path('properties/<int:pk>/book-site-visit/', views.book_site_visit, name='book_site_visit'),
 ]
