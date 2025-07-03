@@ -1,0 +1,15 @@
+{% extends 'mainapp/base.html' %}
+{% block title %}Booking Confirmation{% endblock %}
+
+{% block content %}
+<div style="max-width:800px; margin:2rem auto; padding:2rem; background:#f8f8f8; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
+  <h2 style="color:#8B4513;">Booking Confirmed</h2>
+  <p>Thank you for booking a site visit for the property:</p>
+  <p><strong>Property ID:</strong> {{ property_id }}</p>
+  <p><strong>Location:</strong> {{ location }}</p>
+  <p><strong>Property Type:</strong> {{ property_type }}</p>
+  <p><strong>Visit Date:</strong> {{ visit_date }}</p>
+  <p>We will contact you soon to confirm your visit. Thank you!</p>
+  <a href="{% url 'property_list' %}" style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border-radius:8px; text-decoration:none;">Back to Properties</a>
+</div>
+{% endblock %}

@@ -29,6 +29,38 @@
   <p style="margin-bottom:1.5rem;">Price: ksh{{ property.price }}</p>
 </div>
 
+
+
+<!-- Book Site Visit Section -->
+<div style="max-width:800px; margin:2rem auto; padding:2rem; background:#ffffff; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
+  <button onclick="toggleVisibility('book-visit-form')" style="padding: 0.7rem 1.5rem; background: #8B4513; color: white; border-radius: 8px; font-weight: bold;">
+    Book Site Visit
+  </button>
+  <div id="book-visit-form" style="display: none; margin-top: 1rem;">
+    <form action="{% url 'book_site_visit' property.pk %}" method="post" style="text-align:left;">
+      {% csrf_token %}
+      
+      <input type="hidden" name="property_id" value="{{ property.id }}">
+      <div>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" value="{{ property.location }}" readonly style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;">
+      </div>
+      <div>
+        <label for="property_type">Property Type:</label>
+        <input type="text" id="property_type" name="property_type" value="{{ property.property_type }}" readonly style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;">
+      </div>
+      <div>
+        <label for="visit_date">Visit Date:</label>
+        <input type="date" id="visit_date" name="visit_date" required style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;">
+      </div>
+      <button type="submit"
+              style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Submit Booking</button>
+    </form>
+  </div>
+</div>
+
+
+
 <!-- Report Issue Section -->
 <div style="max-width:800px; margin:2rem auto; padding:2rem; background:#fff5f5; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
   <button onclick="toggleVisibility('report-form')" style="padding: 0.7rem 1.5rem; background: #ff4c4c; color: white; border-radius: 8px; font-weight: bold;">
@@ -41,22 +73,6 @@
                 style="width:100%; padding:0.7rem; min-height:120px; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;"></textarea>
       <button type="submit"
               style="padding:0.7rem 1.5rem; background:#ff4c4c; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Submit Report</button>
-    </form>
-  </div>
-</div>
-
-<!-- Message Seller Section -->
-<div style="max-width:800px; margin:2rem auto; padding:2rem; background:#ffffff; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
-  <button onclick="toggleVisibility('message-form')" style="padding: 0.7rem 1.5rem; background: #8B4513; color: white; border-radius: 8px; font-weight: bold;">
-    Contact Seller
-  </button>
-  <div id="message-form" style="display: none; margin-top: 1rem;">
-    <form action="{% url 'send_message' property.pk %}" method="post" style="text-align:left;">
-      {% csrf_token %}
-      <textarea name="message" placeholder="Write your message here..." required
-                style="width:100%; padding:0.7rem; min-height:120px; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;"></textarea>
-      <button type="submit"
-              style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Send Message</button>
     </form>
   </div>
 </div>
