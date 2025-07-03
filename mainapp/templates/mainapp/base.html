@@ -4,7 +4,7 @@
   {% load static %}
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Prestige Properties{% endblock %}</title>
+  <title>{% block title %}Essy Properties{% endblock %}</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'mainapp/css/mobile.css' %}">
@@ -159,6 +159,7 @@
             <li><a href="{% url 'property_list' %}">Properties</a></li>
             <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact_page' %}">Contact</a></li>
             {% if request.user.is_authenticated and request.user.is_superuser %}
               <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
             {% endif %}
@@ -185,16 +186,10 @@
 
   <!-- Footer -->
   <footer style="padding:1rem; color:white; background:#333; text-align:center;">
-    &copy; 2025 Prestige Properties. All rights reserved.
+    &copy; 2025 Essy Properties. All rights reserved.
     <div style="margin-top:1rem; display:flex; gap:1rem; justify-content:center;">
       {% if seller_profile.facebook_url %}
         <a href="{{ seller_profile.facebook_url }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      {% endif %}
-      {% if seller_profile.instagram_url %}
-        <a href="{{ seller_profile.instagram_url }}" target="_blank"><i class="fab fa-instagram"></i></a>
-      {% endif %}
-      {% if seller_profile.linkedin_url %}
-        <a href="{{ seller_profile.linkedin_url }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
       {% endif %}
     </div>
   </footer>
