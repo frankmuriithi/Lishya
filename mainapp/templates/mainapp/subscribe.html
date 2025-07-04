@@ -3,11 +3,6 @@
 {% block content %}
 <div style="max-width:600px; margin:2rem auto; padding:2rem; background:#f8f8f8; border-radius:8px; text-align:center;">
   <h2 style="color:#8B4513;">Join Our Mailing List</h2>
-  {% if messages %}
-    {% for message in messages %}
-      <p style="color:green;">{{ message }}</p>
-    {% endfor %}
-  {% endif %}
   <form method="post" style="margin-top:1rem;">
     {% csrf_token %}
     <input type="email" name="email" placeholder="Your email address" required

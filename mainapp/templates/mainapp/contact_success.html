@@ -1,0 +1,10 @@
+{% extends 'mainapp/base.html' %}
+{% block title %}Message Sent{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 4rem 1rem;">
+  <h2 style="color: #8B4513; font-family: 'Playfair Display', serif;">Thank You!</h2>
+  <p style="font-size: 1.1rem; color: #444;">Your message has been sent successfully. We will get back to you shortly.</p>
+  <a href="{% url 'index' %}" style="margin-top: 2rem; display: inline-block; padding: 0.7rem 1.5rem; background: #8B4513; color: white; border-radius: 8px; text-decoration: none;">Back to Home</a>
+</div>
+{% endblock %}

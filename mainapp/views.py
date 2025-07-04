@@ -230,8 +230,13 @@ def meeting_request(request, property_id):
         return redirect('property_detail', pk=property_id)
     return render(request, 'mainapp/meeting_request.html', {'property': prop})
 
-# ==================== Contact Page ====================
 
+def contact_success(request):
+    return render(request, 'mainapp/contact_success.html')
+
+
+
+# ==================== Contact Page ====================
 def contact_page(request):
     """
     Display a contact page with a simple form allowing visitors
@@ -250,13 +255,13 @@ def contact_page(request):
                 send_mail(
                     subject,
                     full_message,
-                    email,  # From user's email
-                    ['frankmuriithi2001@gmail.com'],  # ✅ Replace with your actual receiving email
+                    email,  # Sender's email
+                    ['prestigeproperties2030@gmail.com'],  # ✅ Receiver's email
                     fail_silently=False,
                 )
-                messages.success(request, "Thanks for reaching out! Your message has been sent.")
+                return redirect('contact_success')  # Redirect if sent successfully
             except Exception as e:
-                messages.error(request, f"Failed to send message: {e}")
+                messages.error(request, "Failed to send your message. Please try again later.")
         else:
             messages.error(request, "Please fill all the fields before submitting!")
 
