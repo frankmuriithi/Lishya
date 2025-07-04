@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate, logout
@@ -8,7 +9,7 @@ from django.contrib.auth.models import User
 from .forms import PropertyForm
 from django.core.mail import send_mail
 
-from .models import Property, SellerProfile, Favorite, Message, BuyerProfile, Report, MeetingRequest, Subscriber
+from .models import Booking, Property, SellerProfile, Favorite, Message, BuyerProfile, Report, MeetingRequest, Subscriber
 
 # ==================== Authentication Views ====================
 
@@ -276,26 +277,66 @@ def subscribe(request):
             messages.success(request, "Thanks for subscribing to our mailing list!")
         return redirect('subscribe')
     return render(request, 'mainapp/subscribe.html')
-
-
 def book_site_visit(request, pk):
     property_obj = get_object_or_404(Property, pk=pk)
     
     if request.method == 'POST':
-        property_id = request.POST['property_id']
-        location = request.POST['location']
-        property_type = request.POST['property_type']
-        visit_date = request.POST['visit_date']
-        # Add booking logic here (e.g., save to database)
-        return render(request, 'mainapp/booking_confirmation.html', {
-            'property_id': property_id,
-            'location': location,
-            'property_type': property_type,
-            'visit_date': visit_date
-        })
-    return render(request, 'property_detail.html', {'property': property_obj})
+        try:
+            # Create the booking
+            booking = Booking.objects.create(
+                property=property_obj,
+                buyer=request.user if request.user.is_authenticated else None,
+                full_name=request.POST.get('full_name'),
+                email=request.POST.get('email'),
+                phone=request.POST.get('phone'),
+                visit_date=request.POST.get('visit_date'),
+                visit_time=request.POST.get('visit_time'),
+                message=request.POST.get('message', '')
+            )
+            
+            # Redirect to confirmation page
+            return redirect('booking_confirmation', pk=booking.id)
+            
+        except Exception as e:
+            messages.error(request, f"Error creating booking: {str(e)}")
+            return redirect('property_detail', pk=pk)
+    
+    # If GET request, show property detail page
+    return redirect('property_detail', pk=pk)
+
+
 
 def booking_confirmation(request, pk):
-    property_obj = get_object_or_404(Property, pk=pk)
-    return render(request, 'mainapp/booking_confirmation.html', {'property': property_obj})
+    booking = get_object_or_404(Booking, pk=pk)
+    return render(request, 'mainapp/booking_confirmation.html', {
+        'booking': booking,
+        'property': booking.property
+    })
 
+
+
+@login_required
+def seller_bookings(request):
+    # Get properties owned by the seller
+    seller_properties = Property.objects.filter(seller__user=request.user)
+    # Get bookings for these properties
+    bookings = Booking.objects.filter(property__in=seller_properties).order_by('-visit_date', '-visit_time')
+    
+    return render(request, 'mainapp/seller_bookings.html', {
+        'bookings': bookings
+    })
+
+@login_required
+@require_POST
+def update_booking_status(request, pk):
+    booking = get_object_or_404(Booking, pk=pk, property__seller__user=request.user)
+    new_status = request.POST.get('status')
+    
+    if new_status in dict(Booking.STATUS_CHOICES).keys():
+        booking.status = new_status
+        booking.save()
+        messages.success(request, f"Booking status updated to {new_status}.")
+    else:
+        messages.error(request, "Invalid status.")
+    
+    return redirect('seller_bookings')

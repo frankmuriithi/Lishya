@@ -7,6 +7,7 @@ from .models import (
     Message,
     PropertyView,
     Report,
+    Booking,
 )
 
 # Optional: add a custom admin for better list displays
@@ -54,3 +55,11 @@ class ReportAdmin(admin.ModelAdmin):
     search_fields = ('reported_property__title', 'reported_user__username', 'reported_by__username')
     date_hierarchy = 'created_at'
 
+
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('property', 'full_name', 'email', 'visit_date', 'visit_time', 'status')
+    list_filter = ('status', 'visit_date', 'property')
+    search_fields = ('property__title', 'full_name', 'email', 'phone')
+    date_hierarchy = 'visit_date'
+    ordering = ('-visit_date', '-visit_time')

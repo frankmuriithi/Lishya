@@ -3,104 +3,569 @@
 
 {% block content %}
 <!-- Property Info -->
-<div style="max-width:800px; margin:2rem auto; padding:2rem; background:#f8f8f8; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
-  <h2 style="color:#8B4513;">{{ property.title }}</h2>
+<div class="property-container">
+  <h2 class="property-title">{{ property.title }}</h2>
 
-  <div style="position: relative; display: inline-block;">
-    <img src="{{ property.image_main.url }}" style="width:100%; border-radius:8px; margin-bottom:1rem;" alt="{{ property.title }}" />
+  <div class="property-image-container">
+    <img src="{{ property.image_main.url }}" class="property-main-image" alt="{{ property.title }}" />
 
-  <!-- Heart Icon Favorite Button -->
-  <form id="favorite-form" method="post" action="{% url 'add_to_favorites' property.pk %}" style="position: absolute; background: transparent; top: 10px; right: 5px; width: 20%;">
-    {% csrf_token %}
-    <button type="button" id="favorite-button" style="background: transparent; border: none; cursor: pointer;">
-      <i class="fas fa-heart" id="heart-icon" style="font-size: 2rem; color: gray;"></i>
-    </button>
-  </form>
+    <!-- Favorite Button -->
+    <form id="favorite-form" method="post" action="{% url 'add_to_favorites' property.pk %}" class="favorite-form">
+      {% csrf_token %}
+      <button type="button" id="favorite-button" class="favorite-button">
+        <i class="fas fa-heart" id="heart-icon"></i>
+        <div id="favorite-spinner" class="spinner hidden"></div>
+      </button>
+    </form>
 
-    <!-- SOLD Badge -->
     {% if not property.is_available %}
-      <div style="position: absolute; top: 10px; left: 10px; background: red; color: white; padding: 5px 10px; font-weight: bold; border-radius: 5px;">
-        SOLD
-      </div>
+      <div class="sold-badge">SOLD</div>
     {% endif %}
   </div>
 
-  <p style="margin-bottom:1rem;">{{ property.description }}</p>
-  <p style="margin-bottom:1.5rem;">Price: ksh{{ property.price }}</p>
-  <p style=" margin-bottom: 0.5rem; color:#666;">📍 {{ property.location_address }}</p>
-</div>
-
-
-
-<!-- Book Site Visit Section -->
-<div style="max-width:800px; margin:2rem auto; padding:2rem; background:#ffffff; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
-  <button onclick="toggleVisibility('book-visit-form')" style="padding: 0.7rem 1.5rem; background: #8B4513; color: white; border-radius: 8px; font-weight: bold;">
-    Book Site Visit
-  </button>
-  <div id="book-visit-form" style="display: none; margin-top: 1rem;">
-    <form action="{% url 'book_site_visit' property.pk %}" method="post" style="text-align:left;">
-      {% csrf_token %}
+  <div class="property-details-grid">
+    <div class="detail-item">
+      <i class="fas fa-map-marker-alt"></i>
+      <span>{{ property.location_address }}</span>
+    </div>
+    <div class="detail-item">
+      <i class="fas fa-tag"></i>
+      <span>ksh{{ property.price|floatformat:"0" }}</span>
+    </div>
+    <div class="detail-item">
       
-      <input type="hidden" name="property_id" value="{{ property.id }}">
-      <div>
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" value="{{ property.location }}" readonly style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;">
-      </div>
-      <div>
-        <label for="property_type">Property Type:</label>
-        <input type="text" id="property_type" name="property_type" value="{{ property.property_type }}" readonly style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;">
-      </div>
-      <div>
-        <label for="visit_date">Visit Date:</label>
-        <input type="date" id="visit_date" name="visit_date" required style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;">
-      </div>
-      <button type="submit"
-              style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Submit Booking</button>
-    </form>
+      <span>{{ property.bedrooms }} </span>
+    </div>
+    <div class="detail-item">
+     
+      <span>{{ property.bathrooms }} </span>
+    </div>
+  </div>
+
+  <div class="property-description">
+    <h3>Property Description</h3>
+    <p>{{ property.description }}</p>
   </div>
 </div>
 
+<!-- Modern Booking Form Section -->
+<div class="form-section">
+  <div class="form-toggle">
+    <button id="book-visit-btn" class="toggle-button active">
+      <i class="fas fa-calendar-alt"></i> Book Viewing
+    </button>
+    <button id="report-btn" class="toggle-button">
+      <i class="fas fa-flag"></i> Report
+    </button>
+  </div>
 
-
-<!-- Report Issue Section -->
-<div style="max-width:800px; margin:2rem auto; padding:2rem; background:#fff5f5; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
-  <button onclick="toggleVisibility('report-form')" style="padding: 0.7rem 1.5rem; background: #ff4c4c; color: white; border-radius: 8px; font-weight: bold;">
-    Report this property
-  </button>
-  <div id="report-form" style="display: none; margin-top: 1rem;">
-    <form action="{% url 'report_issue' property.pk %}" method="post" style="text-align:left;">
+  <div id="book-visit-form" class="modern-form">
+    <h3>Schedule Your Visit</h3>
+    <form action="{% url 'book_site_visit' property.pk %}" method="post" class="booking-form">
       {% csrf_token %}
-      <textarea name="reason" placeholder="Why are you reporting this property?" required
-                style="width:100%; padding:0.7rem; min-height:120px; border-radius:8px; border:1px solid #ccc; font-size:1rem; margin-bottom:1rem;"></textarea>
-      <button type="submit"
-              style="padding:0.7rem 1.5rem; background:#ff4c4c; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Submit Report</button>
+      <input type="hidden" name="property_id" value="{{ property.id }}">
+      
+      <div class="form-group">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" name="full_name" 
+               value="{% if user.is_authenticated %}{{ user.get_full_name }}{% endif %}" 
+               {% if user.is_authenticated %}readonly{% else %}required{% endif %}>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" 
+               value="{% if user.is_authenticated %}{{ user.email }}{% endif %}" 
+               {% if user.is_authenticated %}readonly{% else %}required{% endif %}>
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required
+               {% if user.profile.phone %}value="{{ user.profile.phone }}"{% endif %}>
+        <small class="form-text">We'll contact you to confirm your visit</small>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="visit_date">Visit Date</label>
+          <input type="date" id="visit_date" name="visit_date" required>
+        </div>
+        <div class="form-group">
+          <label for="visit_time">Time</label>
+          <select id="visit_time" name="visit_time" required>
+            <option value="">Select Time</option>
+            <option value="09:00">9:00 AM</option>
+            <option value="10:00">10:00 AM</option>
+            <option value="11:00">11:00 AM</option>
+            <option value="12:00">12:00 PM</option>
+            <option value="13:00">1:00 PM</option>
+            <option value="14:00">2:00 PM</option>
+            <option value="15:00">3:00 PM</option>
+            <option value="16:00">4:00 PM</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="message">Additional Notes (Optional)</label>
+        <textarea id="message" name="message" rows="3"></textarea>
+      </div>
+      
+      <button type="submit" class="submit-button">
+        <span class="button-text">Confirm Booking</span>
+        <div class="button-spinner hidden"></div>
+      </button>
+      
+      {% if not user.is_authenticated %}
+      <div class="auth-notice">
+        <p>Want faster booking? <a href="{% url 'login' %}?next={{ request.path }}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
+      </div>
+      {% endif %}
+    </form>
+  </div>
+
+  <div id="report-form" class="modern-form hidden">
+    <h3>Report This Property</h3>
+    <form action="{% url 'report_issue' property.pk %}" method="post" class="report-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="report_reason">Reason for Reporting</label>
+        <select id="report_reason" name="report_reason" required>
+          <option value="">Select a reason</option>
+          <option value="incorrect_info">Incorrect Information</option>
+          <option value="fake_listing">Fake Listing</option>
+          <option value="already_sold">Already Sold</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="report_details">Details</label>
+        <textarea id="report_details" name="reason" required rows="4"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="reporter_email">Your Email</label>
+        <input type="email" id="reporter_email" name="reporter_email"
+               value="{% if user.is_authenticated %}{{ user.email }}{% endif %}"
+               {% if user.is_authenticated %}readonly{% else %}required{% endif %}>
+      </div>
+      
+      <button type="submit" class="submit-button report-submit">
+        Submit Report
+      </button>
     </form>
   </div>
 </div>
 
-<!-- JavaScript to turn heart green after clicking -->
+<style>
+  /* Base Styles */
+  :root {
+    --primary-color: #8B4513;
+    --primary-dark: #6d3610;
+    --secondary-color: #ff4c4c;
+    --secondary-dark: #e03c3c;
+    --light-bg: #f8f8f8;
+    --text-color: #333;
+    --light-text: #666;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  
+  .property-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  }
+  
+  .property-title {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+  
+  .property-image-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .property-main-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .property-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+  }
+  
+  .detail-item i {
+    font-size: 1.2rem;
+  }
+  
+  .property-description {
+    margin-top: 1.5rem;
+  }
+  
+  .property-description h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+  }
+  
+  /* Favorite Button */
+  .favorite-form {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  
+  .favorite-button {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .favorite-button:hover {
+    background: white;
+    transform: scale(1.1);
+  }
+  
+  #heart-icon {
+    font-size: 1.5rem;
+    color: gray;
+    transition: color 0.3s;
+  }
+  
+  .sold-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--secondary-color);
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+  
+  /* Form Section */
+  .form-section {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  
+  .form-toggle {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .toggle-button {
+    flex: 1;
+    padding: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--light-text);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .toggle-button.active {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+  }
+  
+  .toggle-button:not(.active):hover {
+    color: var(--text-color);
+  }
+  
+  /* Modern Form Styles */
+  .modern-form {
+    padding: 2rem;
+  }
+  
+  .modern-form.hidden {
+    display: none;
+  }
+  
+  .modern-form h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.3rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  .form-group input[readonly] {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+  }
+  
+  .form-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--light-text);
+  }
+  
+  .auth-notice {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  .auth-notice a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .auth-notice a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Submit Button */
+  .submit-button {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .submit-button:hover {
+    background: var(--primary-dark);
+  }
+  
+  .report-submit {
+    background: var(--secondary-color);
+  }
+  
+  .report-submit:hover {
+    background: var(--secondary-dark);
+  }
+  
+  .button-text {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .button-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    display: none;
+  }
+  
+  /* Spinner Styles */
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    display: none;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  @keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // Favorite button with loading state
     const heartIcon = document.getElementById('heart-icon');
-    const button = document.getElementById('favorite-button');
+    const favoriteButton = document.getElementById('favorite-button');
+    const favoriteSpinner = document.getElementById('favorite-spinner');
 
-    button.addEventListener('click', function () {
-      fetch("{% url 'add_to_favorites' property.pk %}", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": "{{ csrf_token }}"
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          heartIcon.style.color = "green"; // Turn green instantly
-        } else {
-          alert("Failed to add to favorites.");
-        }
+    if (favoriteButton) {
+      favoriteButton.addEventListener('click', function () {
+        // Show loading spinner
+        heartIcon.classList.add('hidden');
+        favoriteSpinner.classList.remove('hidden');
+        
+        fetch("{% url 'add_to_favorites' property.pk %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            heartIcon.style.color = "green";
+          } else {
+            alert("Failed to add to favorites.");
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert("An error occurred while adding to favorites.");
+        })
+        .finally(() => {
+          // Hide spinner and show heart icon
+          favoriteSpinner.classList.add('hidden');
+          heartIcon.classList.remove('hidden');
+        });
       });
-    });
+    }
+
+    // Form toggle functionality
+    const bookVisitBtn = document.getElementById('book-visit-btn');
+    const reportBtn = document.getElementById('report-btn');
+    const bookVisitForm = document.getElementById('book-visit-form');
+    const reportForm = document.getElementById('report-form');
+
+    function toggleForms(showForm, showBtn, hideForm, hideBtn) {
+      showForm.classList.remove('hidden');
+      hideForm.classList.add('hidden');
+      showBtn.classList.add('active');
+      hideBtn.classList.remove('active');
+    }
+
+    if (bookVisitBtn && reportBtn) {
+      bookVisitBtn.addEventListener('click', function() {
+        toggleForms(bookVisitForm, bookVisitBtn, reportForm, reportBtn);
+      });
+      
+      reportBtn.addEventListener('click', function() {
+        toggleForms(reportForm, reportBtn, bookVisitForm, bookVisitBtn);
+      });
+    }
+
+    // Date validation - prevent past dates
+    const visitDateInput = document.getElementById('visit_date');
+    if (visitDateInput) {
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+      visitDateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Form submission with loading state
+    const bookingForm = document.querySelector('.booking-form');
+    if (bookingForm) {
+      bookingForm.addEventListener('submit', function(e) {
+        const submitButton = this.querySelector('.submit-button');
+        const buttonText = submitButton.querySelector('.button-text');
+        const spinner = submitButton.querySelector('.button-spinner');
+        
+        buttonText.textContent = 'Processing...';
+        spinner.classList.remove('hidden');
+        
+        // For demo purposes, we'll simulate a delay
+        setTimeout(() => {
+          buttonText.textContent = 'Booking Confirmed!';
+          spinner.classList.add('hidden');
+          // Here you would actually submit the form
+          // this.submit();
+        }, 1500);
+      });
+    }
   });
 </script>
-
 {% endblock %}

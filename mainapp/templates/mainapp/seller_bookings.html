@@ -1,0 +1,66 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h2>Your Property Bookings</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Visitor</th>
+                    <th>Date & Time</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>
+                        <a href="{% url 'property_detail' pk=booking.property.pk %}">
+                            {{ booking.property.title }}
+                        </a>
+                    </td>
+                    <td>{{ booking.full_name }}</td>
+                    <td>
+                        {{ booking.visit_date|date:"M j, Y" }}<br>
+                        {{ booking.visit_time|time:"g:i A" }}
+                    </td>
+                    <td>
+                        {{ booking.phone }}<br>
+                        {{ booking.email }}
+                    </td>
+                    <td>
+                        <span class="badge 
+                            {% if booking.status == 'confirmed' %}bg-success
+                            {% elif booking.status == 'cancelled' %}bg-danger
+                            {% else %}bg-warning{% endif %}">
+                            {{ booking.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'update_booking_status' pk=booking.pk %}">
+                            {% csrf_token %}
+                            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                {% for value, label in booking.STATUS_CHOICES %}
+                                <option value="{{ value }}" {% if booking.status == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No bookings yet</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

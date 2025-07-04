@@ -36,13 +36,10 @@ urlpatterns = [
     path('properties/<int:pk>/report/', views.report_issue, name='report_issue'),
     path('admin/reports/', views.view_reports, name='view_reports'),
 
-    #booking 
-     path('properties/<int:pk>/book-site-visit/', views.
-     
-    book_site_visit, name='book_site_visit'),
-
-    # 🗓️ Booking Confirmation
-    path('properties/<int:pk>/book-site-visit/', views.book_site_visit, name='book_site_visit'),
+    
+#    # 🗓️ Booking Management
+     path('bookings/<int:pk>/confirmation/', views.booking_confirmation, name='booking_confirmation'),
+    path('properties/<int:pk>/book/', views.book_site_visit, name='book_site_visit'),
     
     # Password reset views
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='mainapp/password_reset.html'), name='password_reset'),
@@ -52,6 +49,11 @@ urlpatterns = [
 
     # ... other routes ...
     path('contact/success/', views.contact_success, name='contact_success'),
+   
+    
+    # Seller can view all their bookings
+ path('seller/bookings/', views.seller_bookings, name='seller_bookings'),
+path('seller/bookings/<int:pk>/update-status/', views.update_booking_status, name='update_booking_status'),
 ]
 
 
