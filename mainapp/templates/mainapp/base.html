@@ -41,7 +41,7 @@
 
     .logo-container {
       position: fixed;
-      top: 3rem;
+      top: 2.8rem;
       left: 1rem;
       z-index: 1000;
       padding: 0.3rem;
@@ -55,9 +55,8 @@
       display: block;
     }
 
-    /* ===================== NAVIGATION ===================== */
     .site-header {
-      padding: 1rem 2rem;
+      padding: 1rem 2rem 1rem 160px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -106,53 +105,87 @@
       color: #8B4513;
     }
 
-    /* =================== RESPONSIVE =================== */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-      }
+    .sidebar-toggle {
+      display: none;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      position: fixed;
+      top: -1rem;
+      left: 1rem;
+      z-index: 3000;
+    }
 
+    .mobile-sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 250px;
+      height: 100vh;
+      background: #a06635;
+      color: white;
+      padding: 2rem;
+      transition: left 0.4s ease-in-out;
+      z-index: 2500;
+    }
+
+    .mobile-sidebar.active {
+      left: 0;
+    }
+
+    .mobile-sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-sidebar ul li {
+      margin-bottom: 1.5rem;
+    }
+
+    .mobile-sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
       .nav-left-wrap,
       .nav-right-wrap {
-        width: 100%;
+        display: none;
       }
 
-      .nav-left,
-      .nav-right {
-        flex-direction: column;
-        gap: 1rem;
-        width: 100%;
-      }
-
-      .navbar a {
+      .sidebar-toggle {
         display: block;
-        width: 100%;
       }
 
-      .floating-logo {
-        width: 100px;
-      }
-
-      .logo-container {
-        padding: 0.3rem;
+      .site-header {
+        padding-left: 3rem;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- Floating Logo -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()" id="toggleBtn">☰</button>
+
   <div class="logo-container">
     <img src="{% static 'mainapp/images/at_.png' %}" alt="Logo" class="floating-logo" />
   </div>
 
-  <!-- Orange Header -->
   <div class="orange-section">
     <header class="site-header">
       <nav class="navbar">
-        <!-- Left-side nav -->
         <div class="nav-left-wrap">
           <ul class="nav-left">
             <li><a href="{% url 'index' %}">Home</a></li>
@@ -166,7 +199,6 @@
           </ul>
         </div>
 
-        <!-- Right-side nav -->
         <div class="nav-right-wrap">
           <ul class="nav-right">
             {% if request.user.is_authenticated %}
@@ -181,10 +213,28 @@
     </header>
   </div>
 
-  <!-- Main Content -->
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <span class="sidebar-close" onclick="toggleSidebar()">&times;</span>
+    <ul>
+      <li><a href="{% url 'index' %}">Home</a></li>
+      <li><a href="{% url 'property_list' %}">Properties</a></li>
+      <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
+      <li><a href="{% url 'about' %}">About</a></li>
+      <li><a href="{% url 'contact_page' %}">Contact</a></li>
+      {% if request.user.is_authenticated and request.user.is_superuser %}
+        <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
+      {% endif %}
+      {% if request.user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% else %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'register' %}">Register</a></li>
+      {% endif %}
+    </ul>
+  </div>
+
   {% block content %}{% endblock content %}
 
-  <!-- Footer -->
   <footer style="padding:1rem; color:white; background:#333; text-align:center;">
     &copy; 2025 Essy Properties. All rights reserved.
     <div style="margin-top:1rem; display:flex; gap:1rem; justify-content:center;">
@@ -194,8 +244,19 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      const toggleBtn = document.getElementById('toggleBtn');
+      sidebar.classList.toggle('active');
+
+      if (sidebar.classList.contains('active')) {
+        toggleBtn.style.display = 'none';
+      } else {
+        toggleBtn.style.display = 'block';
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       const images = document.querySelectorAll('.pop-image');
       const observer = new IntersectionObserver((entries) => {
@@ -218,12 +279,6 @@
       }, { threshold: 0.3 });
       sections.forEach(section => colorObserver.observe(section));
     });
-
-    function toggleVisibility(id) {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === "none" ? "block" : "none";
-    }
   </script>
 </body>
 </html>
-
