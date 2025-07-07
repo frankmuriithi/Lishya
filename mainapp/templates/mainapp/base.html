@@ -5,280 +5,1200 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Essy Properties{% endblock %}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'mainapp/css/mobile.css' %}">
 
   <style>
+    :root {
+      --primary-blue: #1a4b8c;
+      --secondary-blue: #2a6fba;
+      --light-blue: #e6f0fa;
+      --white: #ffffff;
+      --dark-gray: #333333;
+      --light-gray: #f5f5f5;
+      --gold: #d4af37;
+    }
+
     body {
       margin: 0;
-      background: white;
-      font-family: Arial, sans-serif;
+      background: var(--white);
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: var(--dark-gray);
+      padding-top: 100px;
     }
 
-    .orange-section {
-      background: #8B4513;
-      padding-bottom: 4rem;
-      position: relative;
-    }
-
-    .pop-image {
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(50px) scale(1);
-      transition: opacity 1s ease-out, transform 1s ease-out;
-    }
-
-    .pop-image.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    .pop-image:hover {
-      transform: scale(1.08);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+    /* Fixed Navigation Bar */
+    .navbar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--primary-blue);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
     }
 
     .logo-container {
-      position: fixed;
-      top: 2.8rem;
-      left: 1rem;
-      z-index: 1000;
-      padding: 0.3rem;
+      display: flex;
+      align-items: center;
+      background: var(--white);
       border-radius: 50%;
-      transition: background 0.3s ease;
+      padding: 5px;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+      margin-top: 20px;
+      transition: all 0.5s ease;
+      z-index: 1001; /* Ensure logo stays above sidebar */
     }
 
     .floating-logo {
-      width: 120px;
-      height: auto;
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      transition: all 0.3s ease;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    .nav-links li {
+      margin: 0 15px;
+      position: relative;
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--white);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::after {
+      width: 70%;
+    }
+
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: var(--secondary-blue);
+      min-width: 200px;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .dropdown-content a:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .dropdown:hover .dropdown-content {
       display: block;
     }
 
-    .site-header {
-      padding: 1rem 2rem 1rem 160px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .dropdown-toggle::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
     }
 
-    .navbar {
+    .dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+
+    .auth-buttons {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: nowrap;
+      margin-left: 30px;
+    }
+
+    .auth-btn {
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: 500;
+      text-decoration: none;
+      margin-left: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-btn {
+      color: var(--white);
+      border: 1px solid var(--white);
+    }
+
+    .register-btn {
+      background-color: var(--white);
+      color: var(--primary-blue);
+    }
+
+    .auth-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.5s ease;
+    }
+
+    .auth-btn:hover::before {
+      left: 100%;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark-gray);
+      transition: transform 0.3s ease;
+    }
+
+    .close-modal:hover {
+      transform: rotate(90deg);
+    }
+
+    /* Hero Section with Background Image - Only for homepage */
+    .hero-section {
+      background: linear-gradient(rgba(26, 75, 140, 0.6), rgba(42, 111, 186, 0.6)), 
+                  url('{% static "mainapp/images/d6.avif" %}') no-repeat center center;
+      background-size: cover;
+      color: white;
+      padding: 100px 5% 150px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      display: none;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      filter: blur(5px);
+      z-index: 0;
+      transform: scale(1.05);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-out;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-out 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 0.9;
+        transform: translateY(0);
+      }
+    }
+
+    /* Solitaire Card Carousel */
+    .solitaire-carousel {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 450px;
+      margin: 50px auto;
+      perspective: 1000px;
+    }
+
+    .property-card {
+      position: absolute;
+      width: 100%;
+      max-width: 350px;
+      height: 400px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      transform-origin: bottom center;
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+      cursor: pointer;
+    }
+
+    .property-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: all 0.5s ease;
+    }
+
+    .property-card .card-content {
+      padding: 20px;
+    }
+
+    .property-card h3 {
+      color: var(--dark-gray);
+      margin-bottom: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .property-card p {
+      color: var(--dark-gray);
+      margin-bottom: 15px;
+    }
+
+    .property-card .card-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--primary-blue);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .property-card .card-button:hover {
+      background: var(--secondary-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card positions in the stack */
+    .property-card:nth-child(1) {
+      z-index: 5;
+      top: 0;
+      opacity: 1;
+    }
+    .property-card:nth-child(2) {
+      z-index: 4;
+      top: 15px;
+      opacity: 0.9;
+      transform: translateX(-50%) rotate(-2deg);
+    }
+    .property-card:nth-child(3) {
+      z-index: 3;
+      top: 30px;
+      opacity: 0.8;
+      transform: translateX(-50%) rotate(2deg);
+    }
+    .property-card:nth-child(4) {
+      z-index: 2;
+      top: 45px;
+      opacity: 0.7;
+      transform: translateX(-50%) rotate(-3deg);
+    }
+
+    /* Animation classes */
+    .card-slide-down {
+      animation: slideDown 1.2s forwards;
+    }
+
+    @keyframes slideDown {
+      0% {
+        transform: translateX(-50%) translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translateX(-50%) translateY(150px) rotate(-5deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateX(-50%) translateY(500px) rotate(-15deg);
+        opacity: 0;
+      }
+    }
+
+    .card-bring-to-front {
+      animation: bringToFront 1s forwards;
+    }
+
+    @keyframes bringToFront {
+      0% {
+        transform: translateX(-50%) translateY(30px) rotate(2deg);
+        opacity: 0.9;
+        z-index: 4;
+      }
+      100% {
+        transform: translateX(-50%) translateY(0) rotate(0deg);
+        opacity: 1;
+        z-index: 5;
+      }
+    }
+
+    /* Floating button animation */
+    .floating-btn {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Auth Form Styles */
+    .auth-form h3 {
+      color: var(--primary-blue);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.5rem;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark-gray);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 2px rgba(26, 75, 140, 0.2);
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .form-submit:hover {
+      background-color: var(--secondary-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .form-footer a {
+      color: var(--primary-blue);
+      font-weight: 500;
+      position: relative;
+    }
+
+    .form-footer a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--primary-blue);
+      transition: width 0.3s ease;
+    }
+
+    .form-footer a:hover::after {
       width: 100%;
     }
 
-    .nav-left-wrap,
-    .nav-right-wrap {
-      display: flex;
+    /* Mirror effect for image */
+    .mirror-container {
+      position: relative;
+      margin: 40px auto;
+      max-width: 500px;
     }
 
-    .nav-left,
-    .nav-right {
-      display: flex;
-      flex-direction: row;
-      list-style: none;
-      gap: 2rem;
-      padding: 0;
-      margin: 0;
+    .mirror-image {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: perspective(1000px) rotateX(10deg);
     }
 
-    .nav-left li,
-    .nav-right li {
-      white-space: nowrap;
+    .mirror-effect {
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(to bottom, rgba(26, 75, 140, 0.3), rgba(26, 75, 140, 0.1));
+      border-radius: 0 0 10px 10px;
+      filter: blur(5px);
+      transform: perspective(1000px) rotateX(10deg) scaleY(-1);
+      opacity: 0.7;
     }
 
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1.2rem;
-      padding: 0.3rem 0.8rem;
-      border-radius: 8px;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .navbar a:hover {
-      background: white;
-      color: #8B4513;
-    }
-
+    /* Mobile Sidebar - Enhanced */
     .sidebar-toggle {
       display: none;
-      font-size: 2rem;
+      font-size: 1.8rem;
       background: none;
       border: none;
       color: white;
       cursor: pointer;
-      position: fixed;
-      top: -1rem;
-      left: 1rem;
-      z-index: 3000;
+      margin-right: 15px;
+      transition: transform 0.3s ease;
+      z-index: 1001; /* Ensure it's above the logo */
+    }
+
+    .sidebar-toggle:hover {
+      transform: scale(1.1);
     }
 
     .mobile-sidebar {
       position: fixed;
       top: 0;
       left: -100%;
-      width: 250px;
+      width: 280px;
       height: 100vh;
-      background: #a06635;
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
       color: white;
       padding: 2rem;
       transition: left 0.4s ease-in-out;
-      z-index: 2500;
+      z-index: 1100;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
     }
 
     .mobile-sidebar.active {
       left: 0;
     }
 
+    .mobile-sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .mobile-sidebar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
     .mobile-sidebar ul {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin-top: 2rem;
+      flex-grow: 1;
     }
 
     .mobile-sidebar ul li {
       margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: fadeInLeft 0.4s ease-out forwards;
+      position: relative;
     }
+
+    @keyframes fadeInLeft {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Stagger animations */
+    .mobile-sidebar ul li:nth-child(1) { animation-delay: 0.1s; }
+    .mobile-sidebar ul li:nth-child(2) { animation-delay: 0.2s; }
+    .mobile-sidebar ul li:nth-child(3) { animation-delay: 0.3s; }
+    .mobile-sidebar ul li:nth-child(4) { animation-delay: 0.4s; }
+    .mobile-sidebar ul li:nth-child(5) { animation-delay: 0.5s; }
+    .mobile-sidebar ul li:nth-child(6) { animation-delay: 0.6s; }
 
     .mobile-sidebar ul li a {
       color: white;
       text-decoration: none;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-sidebar ul li a i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .mobile-sidebar ul li a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(5px);
+    }
+
+    .mobile-sidebar-footer {
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.8;
     }
 
     .sidebar-close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 2rem;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 1.8rem;
       cursor: pointer;
+      transition: transform 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .sidebar-close:hover {
+      transform: rotate(90deg);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Mobile Dropdown */
+    .mobile-dropdown {
+      margin-bottom: 1.5rem;
+    }
+
+    .mobile-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-dropdown-toggle:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .mobile-dropdown-toggle i {
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-dropdown-toggle.active i {
+      transform: rotate(180deg);
+    }
+
+    .mobile-dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out;
+      padding-left: 15px;
+    }
+
+    .mobile-dropdown-content.active {
+      max-height: 300px;
+    }
+
+    .mobile-dropdown-content a {
+      display: block;
+      padding: 10px 0;
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-dropdown-content a:hover {
+      color: var(--gold);
+      padding-left: 10px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .auth-buttons {
+        display: none;
+      }
+      
+      .sidebar-toggle {
+        display: block;
+        order: 1; /* Move to the left */
+      }
+
+      .logo-container {
+        order: 2; /* Move to the center */
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .solitaire-carousel {
+        height: 400px;
+      }
+
+      .property-card {
+        height: 350px;
+      }
     }
 
     @media (max-width: 768px) {
-      .nav-left-wrap,
-      .nav-right-wrap {
-        display: none;
+      .hero-section {
+        background: linear-gradient(rgba(26, 75, 140, 0.5), rgba(42, 111, 186, 0.5)), 
+                    url('{% static "mainapp/images/d6.avif" %}') no-repeat center center;
+        background-size: cover;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      
+      .logo-container {
+        padding: 5px;
+        margin-top: 15px;
+      }
+      
+      .floating-logo {
+        height: 60px;
+        width: 60px;
+      }
+
+      .solitaire-carousel {
+        height: 350px;
+        margin: 30px auto;
+      }
+
+      .property-card {
+        max-width: 300px;
+        height: 320px;
+      }
+
+      .property-card img {
+        height: 180px;
+      }
+
+      .mobile-sidebar {
+        width: 85%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar-container {
+        padding: 15px 3%;
+      }
+
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      .floating-logo {
+        height: 50px;
+        width: 50px;
       }
 
       .sidebar-toggle {
-        display: block;
-      }
-
-      .site-header {
-        padding-left: 3rem;
+        font-size: 1.5rem;
+        margin-right: 10px;
       }
     }
   </style>
 </head>
 
 <body>
-  <button class="sidebar-toggle" onclick="toggleSidebar()" id="toggleBtn">☰</button>
-
-  <div class="logo-container">
-    <img src="{% static 'mainapp/images/at_.png' %}" alt="Logo" class="floating-logo" />
+  <!-- Fixed Navigation Bar -->
+  <div class="navbar-container">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" id="toggleBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="logo-container">
+      <img src="{% static 'mainapp/images/at_.png' %}" alt="Essy Properties Logo" class="floating-logo" />
+    </div>
+    
+    <nav class="main-nav">
+      <ul class="nav-links">
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li class="dropdown">
+          <a href="{% url 'property_list' %}" class="dropdown-toggle">Properties <i class="fas fa-angle-down"></i></a>
+          <div class="dropdown-content">
+            <a href="{% url 'property_list' %}?type=house">Houses</a>
+            <a href="{% url 'property_list' %}?type=land">Lands</a>
+            <a href="{% url 'property_list' %}?type=commercial">Commercial</a>
+            <a href="{% url 'property_list' %}">All Properties</a>
+          </div>
+        </li>
+        <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact_page' %}">Contact</a></li>
+        {% if request.user.is_authenticated and request.user.is_superuser %}
+          <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
+        {% endif %}
+      </ul>
+      
+      <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="auth-btn login-btn">Logout</a>
+        {% else %}
+          <button onclick="openModal('login')" class="auth-btn login-btn floating-btn">Login</button>
+          <button onclick="openModal('register')" class="auth-btn register-btn floating-btn">Register</button>
+        {% endif %}
+      </div>
+    </nav>
   </div>
 
-  <div class="orange-section">
-    <header class="site-header">
-      <nav class="navbar">
-        <div class="nav-left-wrap">
-          <ul class="nav-left">
-            <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'property_list' %}">Properties</a></li>
-            <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact_page' %}">Contact</a></li>
-            {% if request.user.is_authenticated and request.user.is_superuser %}
-              <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
-            {% endif %}
-          </ul>
-        </div>
-
-        <div class="nav-right-wrap">
-          <ul class="nav-right">
-            {% if request.user.is_authenticated %}
-              <li><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-              <li><a href="{% url 'login' %}">Login</a></li>
-              <li><a href="{% url 'register' %}">Register</a></li>
-            {% endif %}
-          </ul>
-        </div>
-      </nav>
-    </header>
-  </div>
-
+  <!-- Enhanced Mobile Sidebar -->
   <div class="mobile-sidebar" id="mobileSidebar">
-    <span class="sidebar-close" onclick="toggleSidebar()">&times;</span>
+    <div class="mobile-sidebar-header">
+      <h3 class="mobile-sidebar-title">Essy Properties</h3>
+      <span class="sidebar-close" onclick="toggleSidebar()">&times;</span>
+    </div>
+    
     <ul>
-      <li><a href="{% url 'index' %}">Home</a></li>
-      <li><a href="{% url 'property_list' %}">Properties</a></li>
-      <li><a href="{% url 'view_favorites' %}">Favorites</a></li>
-      <li><a href="{% url 'about' %}">About</a></li>
-      <li><a href="{% url 'contact_page' %}">Contact</a></li>
+      <li><a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a></li>
+      
+      <div class="mobile-dropdown">
+        <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(this)">
+          <span><i class="fas fa-building"></i> Properties</span>
+          <i class="fas fa-angle-down"></i>
+        </button>
+        <div class="mobile-dropdown-content">
+          <a href="{% url 'property_list' %}?type=house"><i class="fas fa-house-user"></i> Houses</a>
+          <a href="{% url 'property_list' %}?type=land"><i class="fas fa-mountain"></i> Lands</a>
+          <a href="{% url 'property_list' %}?type=commercial"><i class="fas fa-store"></i> Commercial</a>
+          <a href="{% url 'property_list' %}"><i class="fas fa-list"></i> All Properties</a>
+        </div>
+      </div>
+      
+      <li><a href="{% url 'view_favorites' %}"><i class="fas fa-heart"></i> Favorites</a></li>
+      <li><a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="{% url 'contact_page' %}"><i class="fas fa-envelope"></i> Contact</a></li>
       {% if request.user.is_authenticated and request.user.is_superuser %}
-        <li><a href="{% url 'seller_dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'seller_dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
       {% endif %}
       {% if request.user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Logout</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       {% else %}
-        <li><a href="{% url 'login' %}">Login</a></li>
-        <li><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="#" onclick="openModal('login'); toggleSidebar()"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+        <li><a href="#" onclick="openModal('register'); toggleSidebar()"><i class="fas fa-user-plus"></i> Register</a></li>
       {% endif %}
     </ul>
+    
+    <div class="mobile-sidebar-footer">
+      <p>&copy; 2025 Essy Properties</p>
+    </div>
   </div>
+
+  <!-- Hero Section (only shown on homepage) -->
+  {% if request.path == '/' %}
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Find Your Dream Property</h1>
+      <p class="hero-subtitle">Discover premium homes and investment opportunities in the most sought-after locations</p>
+      
+      <!-- Mirror effect image container -->
+      <div class="mirror-container">
+        <img src="{% static 'mainapp/images/d6.avif' %}" alt="Luxury Property" class="mirror-image">
+        <div class="mirror-effect"></div>
+      </div>
+
+      <!-- Solitaire Card Carousel -->
+      <div class="solitaire-carousel">
+        <div class="property-card">
+          <img src="{% static 'mainapp/images/e2.avif' %}" alt="Modern Villa">
+          <div class="card-content">
+            <h3>Modern Villa</h3>
+            <p>Premium residential area with stunning views</p>
+            <a href="{% url 'property_list' %}" class="card-button">View Details</a>
+          </div>
+        </div>
+        <div class="property-card">
+          <img src="{% static 'mainapp/images/bb.avif' %}" alt="Urban Apartment">
+          <div class="card-content">
+            <h3>Urban Apartment</h3>
+            <p>Contemporary living in the city center</p>
+            <a href="{% url 'property_list' %}" class="card-button">View Details</a>
+          </div>
+        </div>
+        <div class="property-card">
+          <img src="{% static 'mainapp/images/d6.avif' %}" alt="Countryside Estate">
+          <div class="card-content">
+            <h3>Countryside Estate</h3>
+            <p>Peaceful retreat with expansive grounds</p>
+            <a href="{% url 'property_list' %}" class="card-button">View Details</a>
+          </div>
+        </div>
+        <div class="property-card">
+          <img src="{% static 'mainapp/images/premium.avif' %}" alt="Penthouse Suite">
+          <div class="card-content">
+            <h3>Penthouse Suite</h3>
+            <p>Luxury living with panoramic city views</p>
+            <a href="{% url 'property_list' %}" class="card-button">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
 
   {% block content %}{% endblock content %}
 
-  <footer style="padding:1rem; color:white; background:#333; text-align:center;">
-    &copy; 2025 Essy Properties. All rights reserved.
-    <div style="margin-top:1rem; display:flex; gap:1rem; justify-content:center;">
-      {% if seller_profile.facebook_url %}
-        <a href="{{ seller_profile.facebook_url }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      {% endif %}
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('login')">&times;</span>
+      <div class="auth-form">
+        <h3>Login</h3>
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" required>
+          </div>
+          <button type="submit" class="form-submit">Sign In</button>
+          <p class="form-footer">Forgot password? <a href="#">Reset here</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('register')">&times;</span>
+      <div class="auth-form">
+        <h3>Register</h3>
+        <form method="post" action="{% url 'register' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="register-username">Username</label>
+            <input type="text" id="register-username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password1">Password</label>
+            <input type="password" id="register-password1" name="password1" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password2">Confirm Password</label>
+            <input type="password" id="register-password2" name="password2" required>
+          </div>
+          <button type="submit" class="form-submit">Create Account</button>
+          <p class="form-footer">Already have an account? <a href="#" onclick="switchToLogin()">Login here</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer style="padding:2rem; color:white; background:var(--dark-gray); text-align:center;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <p>&copy; 2025 Essy Properties. All rights reserved.</p>
+      <div style="margin-top:1.5rem; display:flex; gap:1.5rem; justify-content:center;">
+        {% if seller_profile.facebook_url %}
+          <a href="{{ seller_profile.facebook_url }}" target="_blank" style="color:white; font-size:1.5rem;"><i class="fab fa-facebook-f"></i></a>
+        {% else %}
+          <a href="#" style="color:white; font-size:1.5rem;"><i class="fab fa-facebook-f"></i></a>
+        {% endif %}
+        <a href="#" style="color:white; font-size:1.5rem;"><i class="fab fa-twitter"></i></a>
+        <a href="#" style="color:white; font-size:1.5rem;"><i class="fab fa-instagram"></i></a>
+        <a href="#" style="color:white; font-size:1.5rem;"><i class="fab fa-linkedin-in"></i></a>
+      </div>
     </div>
   </footer>
 
   <script>
+    // Toggle mobile sidebar
     function toggleSidebar() {
       const sidebar = document.getElementById('mobileSidebar');
       const toggleBtn = document.getElementById('toggleBtn');
       sidebar.classList.toggle('active');
-
+      
       if (sidebar.classList.contains('active')) {
         toggleBtn.style.display = 'none';
+        document.body.style.overflow = 'hidden';
       } else {
         toggleBtn.style.display = 'block';
+        document.body.style.overflow = 'auto';
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const images = document.querySelectorAll('.pop-image');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.2 });
-      images.forEach(img => observer.observe(img));
+    // Toggle mobile dropdown
+    function toggleMobileDropdown(button) {
+      const dropdown = button.nextElementSibling;
+      button.classList.toggle('active');
+      dropdown.classList.toggle('active');
+    }
 
-      const logoContainer = document.querySelector('.logo-container');
-      const sections = document.querySelectorAll('section, .orange-section');
-      const colorObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            logoContainer.style.background = window.getComputedStyle(entry.target).backgroundColor;
-          }
-        });
-      }, { threshold: 0.3 });
-      sections.forEach(section => colorObserver.observe(section));
+    // Scroll effect for navbar
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar-container');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '10px 5%';
+        document.querySelector('.floating-logo').style.height = '60px';
+        document.querySelector('.floating-logo').style.width = '60px';
+      } else {
+        navbar.style.padding = '15px 5%';
+        document.querySelector('.floating-logo').style.height = '70px';
+        document.querySelector('.floating-logo').style.width = '70px';
+      }
     });
+
+    // Modal functions
+    function openModal(modalType) {
+      document.getElementById(modalType + 'Modal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalType) {
+      document.getElementById(modalType + 'Modal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function switchToLogin() {
+      closeModal('register');
+      openModal('login');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Show hero section only on homepage
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.location.pathname === '/') {
+        document.querySelector('.hero-section').style.display = 'block';
+        
+        // Initialize solitaire carousel if on homepage
+        initSolitaireCarousel();
+      }
+    });
+
+    // Solitaire Card Carousel Animation
+    function initSolitaireCarousel() {
+      const carousel = document.querySelector('.solitaire-carousel');
+      if (!carousel) return;
+
+      const cards = Array.from(document.querySelectorAll('.property-card'));
+      let currentIndex = 0;
+      const cycleTime = 4000; // 4 seconds per card
+
+      function cycleCards() {
+        // Slide down the current front card
+        cards[currentIndex].classList.add('card-slide-down');
+        
+        // After animation completes, move it to the back
+        setTimeout(() => {
+          cards[currentIndex].classList.remove('card-slide-down');
+          carousel.appendChild(cards[currentIndex]);
+          
+          // Reset all cards to their base positions
+          cards.forEach((card, index) => {
+            card.style.zIndex = cards.length - index;
+            card.style.opacity = 1 - (index * 0.1);
+            card.style.top = `${index * 15}px`;
+            
+            // Alternate rotation for stacked effect
+            if (index % 2 === 0) {
+              card.style.transform = `translateX(-50%) rotate(${index}deg)`;
+            } else {
+              card.style.transform = `translateX(-50%) rotate(-${index}deg)`;
+            }
+          });
+          
+          // Bring the new front card to focus
+          cards[0].classList.add('card-bring-to-front');
+          setTimeout(() => {
+            cards[0].classList.remove('card-bring-to-front');
+          }, 1000);
+          
+          // Update current index
+          currentIndex = (currentIndex + 1) % cards.length;
+        }, 1200);
+      }
+
+      // Start the carousel
+      let carouselInterval = setInterval(cycleCards, cycleTime);
+
+      // Pause on hover
+      carousel.addEventListener('mouseenter', () => {
+        clearInterval(carouselInterval);
+      });
+
+      carousel.addEventListener('mouseleave', () => {
+        carouselInterval = setInterval(cycleCards, cycleTime);
+      });
+
+      // Click to manually cycle
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          clearInterval(carouselInterval);
+          cycleCards();
+          carouselInterval = setInterval(cycleCards, cycleTime);
+        });
+      });
+    }
   </script>
 </body>
 </html>

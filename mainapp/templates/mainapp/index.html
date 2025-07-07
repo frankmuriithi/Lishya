@@ -3,76 +3,388 @@
 
 {% block content %}
 
-  <!-- Orange hero section -->
-  <div class="orange-section">
-    <div style="text-align:center; padding:8rem 1rem 2rem 1rem; color:white;">
-      <h2 style="font-family:'Playfair Display', serif; font-size:3rem; max-width:800px; margin:0 auto; letter-spacing:1px; position:relative; top:-60px;">
-        Find the perfect home with Essy Properties — your trusted property partner.
+  <!-- Featured Properties Section -->
+  <section class="featured-section" style="background: var(--white); padding: 80px 5%; text-align: center; position: relative; overflow: hidden;">
+    <div class="section-pattern" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('{% static "mainapp/images/pattern.png" %}') repeat; opacity: 0.03; pointer-events: none;"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; position: relative;">
+      <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 2rem; position: relative; display: inline-block;">
+        Featured Properties
+        <span class="title-decoration" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--gold);"></span>
       </h2>
-    </div>
-  </div>
-
-  <!-- Floating image section -->
-  <section style="position:relative; background:white; padding-bottom:6rem; text-align:center;">
-    <!-- Main image -->
-    <img src="{% static 'mainapp/images/e2.avif' %}" alt="Main Property" class="pop-image"
-         style="width:100%; max-width:300px; border-radius:12px; padding:0.5rem; background:white; box-shadow:0 8px 20px rgba(0,0,0,0.2); position:relative; top:-60px; z-index:2;" />
-
-    <!-- Left & Right images -->
-    <img src="{% static 'mainapp/images/bb.avif' %}" class="pop-image"
-         style="width:200px; border-radius:12px; padding:0.5rem; background:white; box-shadow:0 8px 20px rgba(0,0,0,0.2); position:absolute; left:calc(50% - 415px); top:100px;" />
-    <img src="{% static 'mainapp/images/d6.avif' %}" class="pop-image"
-         style="width:200px; border-radius:12px; padding:0.5rem; background:white; box-shadow:0 8px 20px rgba(0,0,0,0.2); position:absolute; left:calc(50% + 200px); top:100px;" />
-  </section>
-
-  <!-- Info for buyers -->
-  <section style="text-align:center; padding:2rem 1rem; background:white;">
-    <h3 style="font-family:'Playfair Display', serif; font-size:1.8rem; color:#333; margin-bottom:0.5rem;">Info for Buyers</h3>
-    <p style="color:#555; font-size:1rem; max-width:600px; margin:0 auto 1rem;">Get all the guidance you need before purchasing a property. Our buyer's guide contains everything you need to make an informed decision.</p>
-    <a href="{% url 'buyers' %}"
-       style="background:#8B4513; color:white; padding:0.7rem 1.5rem; text-decoration:none; border-radius:8px; font-weight:bold;">Learn More</a>
-  </section>
-
-  <!-- About preview -->
-  <section style="background:#b1602e; padding:4rem 1rem;">
-    <div style="max-width:1000px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; gap:2rem;">
-      <div style="flex:1; min-width:250px; color:white;">
-        <h2 style="font-family:'Playfair Display', serif; font-size:2.2rem;">Essy Properties</h2>
-        <p style="font-size:1.2rem; line-height:1.7; margin:1rem 0 1.5rem;">Essy Properties is dedicated to simplifying property transactions for buyers and sellers. Our local expertise and personalized service ensure every client enjoys a smooth and transparent experience.</p>
-        <a href="{% url 'about' %}"
-           style="background:white; color:#ff8c42; padding:0.7rem 1.5rem; border-radius:8px; text-decoration:none; font-weight:bold;">Learn More About Us</a>
+      
+      <div class="properties-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px;">
+        <!-- Property Card 1 -->
+        <div class="property-card" 
+             style="border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.4s ease; transform: translateY(0);">
+          <div class="card-image-container" style="overflow: hidden; position: relative;">
+            <img src="{% static 'mainapp/images/e2.avif' %}" alt="Luxury Home" 
+                 style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.5s ease;">
+            <div class="property-badge" style="position: absolute; top: 20px; right: 20px; background: var(--gold); color: white; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+              Featured
+            </div>
+          </div>
+          <div style="padding: 20px; text-align: left;">
+            <h3 style="color: var(--dark-gray); margin-bottom: 10px; font-family: 'Playfair Display', serif;">Modern Villa</h3>
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+              <span style="display: flex; align-items: center; color: var(--gray);">
+                <i class="fas fa-map-marker-alt" style="margin-right: 5px; color: var(--primary-blue);"></i> Premium Area
+              </span>
+              <span style="display: flex; align-items: center; color: var(--gray);">
+                <i class="fas fa-bed" style="margin-right: 5px; color: var(--primary-blue);"></i> 4 Beds
+              </span>
+            </div>
+            <p style="color: var(--gray); margin-bottom: 15px; min-height: 60px;">Premium residential area with stunning views and modern amenities.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; color: var(--primary-blue);">$850,000</span>
+              <a href="{% url 'property_list' %}" 
+                 class="view-details-btn"
+                 style="display: inline-flex; align-items: center; padding: 10px 20px; background: var(--primary-blue); color: white; border-radius: 5px; text-decoration: none; transition: all 0.3s ease;">
+                View Details <i class="fas fa-arrow-right" style="margin-left: 8px; transition: transform 0.3s ease;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Property Card 2 -->
+        <div class="property-card" 
+             style="border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.4s ease; transform: translateY(0);">
+          <div class="card-image-container" style="overflow: hidden; position: relative;">
+            <img src="{% static 'mainapp/images/bb.avif' %}" alt="Urban Apartment" 
+                 style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.5s ease;">
+            <div class="property-badge" style="position: absolute; top: 20px; right: 20px; background: var(--secondary-blue); color: white; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+              New Listing
+            </div>
+          </div>
+          <div style="padding: 20px; text-align: left;">
+            <h3 style="color: var(--dark-gray); margin-bottom: 10px; font-family: 'Playfair Display', serif;">Urban Apartment</h3>
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+              <span style="display: flex; align-items: center; color: var(--gray);">
+                <i class="fas fa-map-marker-alt" style="margin-right: 5px; color: var(--primary-blue);"></i> City Center
+              </span>
+              <span style="display: flex; align-items: center; color: var(--gray);">
+                <i class="fas fa-bed" style="margin-right: 5px; color: var(--primary-blue);"></i> 3 Beds
+              </span>
+            </div>
+            <p style="color: var(--gray); margin-bottom: 15px; min-height: 60px;">Contemporary living in the heart of the city with luxury finishes.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; color: var(--primary-blue);">$620,000</span>
+              <a href="{% url 'property_list' %}" 
+                 class="view-details-btn"
+                 style="display: inline-flex; align-items: center; padding: 10px 20px; background: var(--primary-blue); color: white; border-radius: 5px; text-decoration: none; transition: all 0.3s ease;">
+                View Details <i class="fas fa-arrow-right" style="margin-left: 8px; transition: transform 0.3s ease;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Property Card 3 -->
+        <div class="property-card" 
+             style="border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.4s ease; transform: translateY(0);">
+          <div class="card-image-container" style="overflow: hidden; position: relative;">
+            <img src="{% static 'mainapp/images/d6.avif' %}" alt="Countryside Estate" 
+                 style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.5s ease;">
+            <div class="property-badge" style="position: absolute; top: 20px; right: 20px; background: var(--gold); color: white; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+              Exclusive
+            </div>
+          </div>
+          <div style="padding: 20px; text-align: left;">
+            <h3 style="color: var(--dark-gray); margin-bottom: 10px; font-family: 'Playfair Display', serif;">Countryside Estate</h3>
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+              <span style="display: flex; align-items: center; color: var(--gray);">
+                <i class="fas fa-map-marker-alt" style="margin-right: 5px; color: var(--primary-blue);"></i> Rural Area
+              </span>
+              <span style="display: flex; align-items: center; color: var(--gray);">
+                <i class="fas fa-bed" style="margin-right: 5px; color: var(--primary-blue);"></i> 5 Beds
+              </span>
+            </div>
+            <p style="color: var(--gray); margin-bottom: 15px; min-height: 60px;">Peaceful retreat with expansive grounds and panoramic views.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; color: var(--primary-blue);">$1,200,000</span>
+              <a href="{% url 'property_list' %}" 
+                 class="view-details-btn"
+                 style="display: inline-flex; align-items: center; padding: 10px 20px; background: var(--primary-blue); color: white; border-radius: 5px; text-decoration: none; transition: all 0.3s ease;">
+                View Details <i class="fas fa-arrow-right" style="margin-left: 8px; transition: transform 0.3s ease;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <img src="{% static 'mainapp/images/premium.avif' %}"
-           alt="Our Office"
-           style="flex:1; max-width:450px; width:100%; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.2);" />
+      
+      <a href="{% url 'property_list' %}" 
+         class="view-all-btn"
+         style="display: inline-block; margin-top: 50px; padding: 12px 30px; background: transparent; color: var(--primary-blue); border: 2px solid var(--primary-blue); border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+        View All Properties <i class="fas fa-arrow-right" style="margin-left: 8px; transition: transform 0.3s ease;"></i>
+      </a>
     </div>
   </section>
 
-  <!-- Let's chat section -->
-  <section style="background:#d8d5d5; padding:12rem 1rem; text-align:center;">
-    <div style="background:white; padding:3rem 2rem; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); max-width:600px; margin:0 auto;">
-      <h1 style="font-family:'Playfair Display', serif;">Let's chat</h1>
-      <h2 style="font-family:'Playfair Display', serif;">Ready to meet?</h2>
+  <!-- Buyer's Guide Section -->
+  <section class="buyers-guide-section" style="background: var(--light-blue); padding: 100px 5%; text-align: center; position: relative;">
+    <div class="guide-pattern" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('{% static "mainapp/images/dots.png" %}') repeat; opacity: 0.05; pointer-events: none;"></div>
+    
+    <div style="max-width: 800px; margin: 0 auto; position: relative;">
+      <div class="guide-icon" style="width: 80px; height: 80px; background: var(--primary-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; box-shadow: 0 10px 20px rgba(26, 75, 140, 0.2);">
+        <i class="fas fa-home" style="font-size: 2rem; color: white;"></i>
+      </div>
+      <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1.5rem; position: relative; display: inline-block;">
+        Info for Buyers
+        <span class="title-decoration" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--gold);"></span>
+      </h2>
+      <p style="color: var(--dark-gray); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
+        Get all the guidance you need before purchasing a property. Our comprehensive buyer's guide contains everything you need to make an informed decision in today's market.
+      </p>
+      <a href="{% url 'buyers' %}" 
+         class="guide-btn"
+         style="display: inline-flex; align-items: center; padding: 12px 30px; background: var(--primary-blue); color: white; border-radius: 5px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(26, 75, 140, 0.3);">
+        Learn More <i class="fas fa-book-open" style="margin-left: 10px;"></i>
+      </a>
+    </div>
+  </section>
 
+  <!-- About Us Section -->
+  <section class="about-section" style="background: var(--white); padding: 100px 5%; position: relative; overflow: hidden;">
+    <div class="about-shape" style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: var(--light-blue); border-radius: 50%; z-index: 0;"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 50px; position: relative;">
+      <div style="flex: 1; min-width: 300px; z-index: 1;">
+        <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1.5rem; position: relative; display: inline-block;">
+          Essy Properties
+          <span class="title-decoration" style="position: absolute; bottom: -10px; left: 0; width: 60px; height: 3px; background: var(--gold);"></span>
+        </h2>
+        <p style="color: var(--dark-gray); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
+          Essy Properties is dedicated to simplifying property transactions for buyers and sellers. Our local expertise and personalized service ensure every client enjoys a smooth and transparent experience from start to finish.
+        </p>
+        <div class="about-features" style="margin-bottom: 30px;">
+          <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px;">
+            <div style="width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="fas fa-check" style="color: var(--primary-blue);"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0 0 5px 0; color: var(--dark-gray);">Trusted Expertise</h4>
+              <p style="margin: 0; color: var(--gray); font-size: 0.95rem;">20+ years in the real estate market</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px;">
+            <div style="width: 40px; height: 40px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="fas fa-star" style="color: var(--primary-blue);"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0 0 5px 0; color: var(--dark-gray);">Premium Service</h4>
+              <p style="margin: 0; color: var(--gray); font-size: 0.95rem;">Personalized approach for every client</p>
+            </div>
+          </div>
+        </div>
+        <a href="{% url 'about' %}" 
+           class="about-btn"
+           style="display: inline-flex; align-items: center; padding: 12px 30px; background: var(--primary-blue); color: white; border-radius: 5px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+          Learn More About Us <i class="fas fa-arrow-right" style="margin-left: 10px; transition: transform 0.3s ease;"></i>
+        </a>
+      </div>
+      <div style="flex: 1; min-width: 300px; z-index: 1;">
+        <div class="about-image-container" style="position: relative;">
+          <img src="{% static 'mainapp/images/premium.avif' %}" alt="Our Office" 
+               class="about-image"
+               style="width: 100%; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); transform: perspective(1000px) rotateY(-5deg); transition: all 0.5s ease;">
+          <div class="about-image-frame" style="position: absolute; top: -20px; left: -20px; width: 100%; height: 100%; border: 2px solid var(--gold); border-radius: 12px; z-index: -1; transition: all 0.5s ease;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA Section -->
+  <section class="contact-section" style="background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); padding: 120px 5%; text-align: center; color: white; position: relative; overflow: hidden;">
+    <div class="contact-shape" style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+    <div class="contact-shape" style="position: absolute; bottom: -80px; left: -80px; width: 250px; height: 250px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+    
+    <div style="max-width: 800px; margin: 0 auto; position: relative;">
+      <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1.5rem; position: relative; display: inline-block;">
+        Let's Chat
+        <span class="title-decoration" style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--gold);"></span>
+      </h2>
+      <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; opacity: 0.9;">
+        Ready to discuss your property needs? We're here to help you find your dream home or get the best value for your property.
+      </p>
+      
       {% if property %}
-        <!-- Only show this if a `property` object is available -->
-        <a href="{% url 'meeting_request' property.pk %}"
-           style="display:inline-block; padding:0.7rem 1.5rem; background:#ff8c42; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">Let us buy you a coffee</a>
+        <a href="{% url 'meeting_request' property.pk %}" 
+           class="contact-btn"
+           style="display: inline-flex; align-items: center; padding: 12px 30px; background: white; color: var(--primary-blue); border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+          Schedule a Consultation <i class="fas fa-calendar-alt" style="margin-left: 10px;"></i>
+        </a>
       {% else %}
-        <!-- Fallback generic contact link -->
-        <a href="{% url 'contact_page' %}"
-           style="display:inline-block; padding:0.7rem 1.5rem; background:#ff8c42; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">Let us buy you a coffee</a>
+        <a href="{% url 'contact_page' %}" 
+           class="contact-btn"
+           style="display: inline-flex; align-items: center; padding: 12px 30px; background: white; color: var(--primary-blue); border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+          Get in Touch <i class="fas fa-paper-plane" style="margin-left: 10px;"></i>
+        </a>
       {% endif %}
     </div>
-
-    <!-- Footer links -->
-    <div style="margin-top:10rem; display:flex; align-items:center; justify-content:space-between; padding:0 2rem;">
-      <a href="{% url 'subscribe' %}" style="color:black; text-decoration:underline;">Get on our mailing list</a>
-      <div style="display:flex; gap:1rem;">
-        <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      </div>
-      <span style="color:black;">Essy Properties</span>
-    </div>
   </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section" style="background: var(--light-gray); padding: 80px 5%; text-align: center; position: relative;">
+    <div style="max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; z-index: 1;">
+      <div class="newsletter-icon" style="width: 70px; height: 70px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; color: white; font-size: 1.5rem;">
+        <i class="fas fa-envelope"></i>
+      </div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark-gray); margin-bottom: 1rem;">
+        Stay Updated
+      </h3>
+      <p style="color: var(--gray); margin-bottom: 1.5rem;">
+        Join our mailing list to receive the latest property listings and market insights.
+      </p>
+      <form action="{% url 'subscribe' %}" method="post" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Your email address" required 
+               style="flex: 1; min-width: 250px; padding: 12px 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+        <button type="submit" 
+                class="subscribe-btn"
+                style="padding: 12px 30px; background: var(--primary-blue); color: white; border: none; border-radius: 5px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+          Subscribe Now <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
+        </button>
+      </form>
+    </div>
+    <div class="newsletter-pattern" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: url('{% static "mainapp/images/pattern-light.png" %}') repeat; opacity: 0.05; pointer-events: none;"></div>
+  </section>
+
+  <style>
+    /* Property Card Hover Effects */
+    .property-card:hover {
+      transform: translateY(-10px) !important;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15) !important;
+    }
+    
+    .property-card:hover .view-details-btn {
+      background: var(--secondary-blue) !important;
+    }
+    
+    .property-card:hover .view-details-btn i {
+      transform: translateX(5px) !important;
+    }
+    
+    .card-image-container img {
+      transition: transform 0.5s ease !important;
+    }
+    
+    .property-card:hover .card-image-container img {
+      transform: scale(1.05) !important;
+    }
+    
+    /* Button Hover Effects */
+    .view-all-btn:hover {
+      background: var(--primary-blue) !important;
+      color: white !important;
+    }
+    
+    .view-all-btn:hover i {
+      transform: translateX(5px) !important;
+    }
+    
+    .guide-btn:hover, .about-btn:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 8px 20px rgba(26, 75, 140, 0.4) !important;
+    }
+    
+    .about-btn:hover i {
+      transform: translateX(5px) !important;
+    }
+    
+    .contact-btn:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+    }
+    
+    .subscribe-btn:hover {
+      background: var(--secondary-blue) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    /* About Image Hover Effect */
+    .about-image-container:hover .about-image {
+      transform: perspective(1000px) rotateY(0) !important;
+    }
+    
+    .about-image-container:hover .about-image-frame {
+      transform: translate(15px, 15px) !important;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    .guide-icon, .newsletter-icon {
+      animation: float 4s ease-in-out infinite;
+    }
+  </style>
+
+  <script>
+    // Animation for property cards
+    document.addEventListener('DOMContentLoaded', function() {
+      // Property cards animation
+      const cards = document.querySelectorAll('.property-card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.style.opacity = 1;
+              entry.target.style.transform = 'translateY(0)';
+            }, index * 150);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      cards.forEach(card => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(50px)';
+        card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        observer.observe(card);
+      });
+      
+      // Section title animations
+      const titles = document.querySelectorAll('.section-title');
+      titles.forEach(title => {
+        title.style.opacity = 0;
+        title.style.transform = 'translateY(20px)';
+        title.style.transition = 'all 0.6s ease-out 0.2s';
+      });
+      
+      const titleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      titles.forEach(title => {
+        titleObserver.observe(title);
+      });
+      
+      // About section animation
+      const aboutImage = document.querySelector('.about-image-container');
+      aboutImage.style.opacity = 0;
+      aboutImage.style.transform = 'translateX(50px) rotateY(-15deg)';
+      aboutImage.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s';
+      
+      const aboutObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateX(0) rotateY(-5deg)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      aboutObserver.observe(aboutImage);
+    });
+  </script>
 
 {% endblock %}
