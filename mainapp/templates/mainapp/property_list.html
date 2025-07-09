@@ -1,48 +1,236 @@
 {% extends 'mainapp/base.html' %}
 {% block title %}Properties{% endblock %}
 {% block content %}
-<h2 style="text-align:center; color:#8B4513;">Available Properties</h2>
-<div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; padding:1rem;">
-  {% for property in properties %}
-    <div style="width:300px; border:1px solid #ccc; padding:1rem; border-radius:8px; position:relative; background:#f8f8f8;">
-      
-      <div style="position:relative; width:100%; height:auto;">
-        <img src="{{ property.image_main.url }}" alt="{{ property.title }}" style="width:100%; border-radius:8px;" />
+<style>
+  .properties-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .page-title {
+    text-align: center;
+    color: #8B4513;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  .page-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: #8B4513;
+    border-radius: 3px;
+  }
+  
+  .properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+  }
+  
+  .property-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(139, 69, 19, 0.1);
+  }
+  
+  .property-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .property-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .property-card:hover .property-image {
+    transform: scale(1.05);
+  }
+  
+  .sold-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    z-index: 2;
+  }
+  
+  .property-details {
+    padding: 1.2rem;
+  }
+  
+  .property-title {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.3rem;
+  }
+  
+  .property-price {
+    margin: 0.5rem 0;
+    color: #8B4513;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .property-location {
+    margin: 0.5rem 0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+  }
+  
+  .property-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #8B4513;
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  
+  .property-link:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #8B4513;
+    transition: width 0.3s ease;
+  }
+  
+  .property-link:hover:after {
+    width: 100%;
+  }
+  
+  .not-available {
+    color: #999;
+    font-style: italic;
+    margin-top: 1rem;
+    display: inline-block;
+  }
+  
+  .empty-message {
+    text-align: center;
+    color: #555;
+    grid-column: 1 / -1;
+    padding: 2rem;
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .properties-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 
-        {% if not property.is_available %}
-          <!-- Sold Overlay -->
-          <div style="
-            position:absolute;
-            top:0; left:0;
-            width:100%; height:100%;
-            background:rgba(0,0,0,0.5);
-            color:white;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:1.5rem;
-            font-weight:bold;
-            border-radius:8px;
-          ">
-            SOLD
-          </div>
-        {% endif %}
+<div class="properties-container">
+  <h1 class="page-title">Available Properties</h1>
+  
+  <div class="properties-grid">
+    {% for property in properties %}
+      <div class="property-card">
+        <div class="property-image-container">
+          <img 
+            src="{{ property.image_main.url }}" 
+            alt="{{ property.title }}" 
+            class="property-image"
+            loading="lazy"
+          />
+          
+          {% if not property.is_available %}
+            <div class="sold-overlay">
+              SOLD
+            </div>
+          {% endif %}
+        </div>
+        
+        <div class="property-details">
+          <h3 class="property-title">{{ property.title }}</h3>
+          <p class="property-price">Ksh {{ property.price|floatformat:"0" }}</p>
+          <p class="property-location">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            {{ property.location_address }}
+          </p>
+          
+          {% if property.is_available %}
+            <a href="{% url 'property_detail' property.pk %}" class="property-link">
+              More Info →
+            </a>
+          {% else %}
+            <span class="not-available">No longer available</span>
+          {% endif %}
+        </div>
       </div>
-
-      <h3 style="margin-top:0.5rem;">{{ property.title }}</h3>
-      <p style="margin:0.5rem 0;">ksh{{ property.price }}</p>
-      <p style=" margin-bottom: 0.5rem; color:#666;">📍 {{ property.location_address }}</p>
-
-      {% if property.is_available %}
-        <a href="{% url 'property_detail' property.pk %}" style="color:#8B4513; font-weight:bold; text-decoration:none;">
-          More Info
-        </a>
-      {% else %}
-        <span style="color:#999; font-style:italic;">No longer available</span>
-      {% endif %}
-    </div>
-  {% empty %}
-    <p style="text-align:center; color:#555;">No properties found at the moment.</p>
-  {% endfor %}
+    {% empty %}
+      <p class="empty-message">No properties found at the moment. Please check back later.</p>
+    {% endfor %}
+  </div>
 </div>
+
+<script>
+  // Add fade-in animation when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.property-card');
+    cards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+    });
+    
+    // Add animation to title
+    const title = document.querySelector('.page-title');
+    title.style.opacity = '0';
+    title.style.transform = 'translateY(-20px)';
+    title.style.animation = 'fadeInDown 0.6s ease forwards';
+  });
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
 {% endblock %}

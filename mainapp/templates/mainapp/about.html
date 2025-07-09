@@ -2,257 +2,578 @@
 {% block title %}About Essy Properties{% endblock %}
 
 {% block content %}
-<section style="padding: 3rem 1rem; background: #f9f5f2;">
-  <div style="max-width: 1000px; margin: auto; text-align: center;">
-    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #8B4513;">About Essy Properties</h1>
-    <p style="font-size: 1.1rem; color: #555; margin-top: 1rem;">
-      Welcome to Essy Properties — your trusted real estate partner nestled in the heart of Ruiru. We're here to simplify the journey of buying and selling properties with elegance, transparency, and heart.
+<style>
+  /* Modern Base Styles */
+  :root {
+    --primary: #1a237e;
+    --primary-light: #534bae;
+    --primary-dark: #000051;
+    --accent: #ffab00;
+    --text: #333;
+    --text-light: #555;
+    --bg-light: #f8f9fa;
+    --bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e8eaf6 100%);
+  }
+  
+  .modern-section {
+    padding: 5rem 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .section-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-gradient);
+    z-index: -1;
+  }
+  
+  .modern-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .modern-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .modern-title:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  
+  .modern-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+  
+  /* Feature Cards */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  
+  .feature-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(26, 35, 126, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: 1px solid rgba(26, 35, 126, 0.1);
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(26, 35, 126, 0.15);
+    border-color: rgba(26, 35, 126, 0.2);
+  }
+  
+  .feature-card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(26, 35, 126, 0.03) 0%, rgba(255,255,255,0) 100%);
+    z-index: -1;
+  }
+  
+  .feature-card h3 {
+    color: var(--primary);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .feature-card h3:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+  
+  .feature-card:hover h3:after {
+    width: 60px;
+  }
+  
+  .feature-card p {
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+  
+  /* CTA Button */
+  .modern-cta {
+    text-align: center;
+    margin-top: 4rem;
+  }
+  
+  .modern-btn {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(26, 35, 126, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .modern-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+  }
+  
+  .modern-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(26, 35, 126, 0.3);
+    background: var(--primary-dark);
+  }
+  
+  .modern-btn:hover:before {
+    left: 100%;
+  }
+  
+  /* Modern Reviews Section */
+  .reviews-section {
+    background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+    padding: 6rem 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .reviews-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(135deg, var(--bg-light) 0%, transparent 100%);
+  }
+  
+  .review-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    perspective: 1000px;
+  }
+  
+  .review-card {
+    position: relative;
+    flex: 1 1 300px;
+    max-width: 350px;
+    height: 280px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .review-card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 15px 40px rgba(26, 35, 126, 0.15);
+  }
+  
+  .review-front, .review-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: all 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .review-front {
+    background: white;
+    z-index: 2;
+  }
+  
+  .review-back {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    transform: rotateY(180deg);
+    z-index: 1;
+  }
+  
+  .review-card:hover .review-front {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
+  
+  .review-card:hover .review-back {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  
+  .review-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+  }
+  
+  .review-stars {
+    color: var(--accent);
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+  }
+  
+  .review-text {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  
+  .review-author {
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 5px;
+  }
+  
+  .review-author:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background: rgba(255,255,255,0.5);
+  }
+  
+  /* Testimonials Carousel */
+  .testimonials-section {
+    padding: 6rem 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8eaf6 100%);
+    position: relative;
+  }
+  
+  .testimonial-box {
+    max-width: 800px;
+    margin: 3rem auto 0;
+    background: white;
+    padding: 3rem;
+    border-radius: 16px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 15px 40px rgba(26, 35, 126, 0.08);
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(26, 35, 126, 0.1);
+  }
+  
+  .testimonial-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: 16px;
+    z-index: -1;
+    transform: translateY(100%);
+    animation: slideUp 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  }
+  
+  #testimonial-text {
+    color: white;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    transition: all 0.5s ease;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+  
+  #testimonial-author {
+    color: pink;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.5s ease;
+    animation: fadeInUp 0.8s ease forwards 0.2s;
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slideUp {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+  }
+  
+  @keyframes flipIn {
+    from { transform: rotateY(90deg); opacity: 0; }
+    to { transform: rotateY(0deg); opacity: 1; }
+  }
+  
+  /* Floating Elements */
+  .floating-element {
+    position: absolute;
+    background: rgba(26, 35, 126, 0.05);
+    border-radius: 50%;
+    z-index: -1;
+  }
+  
+  .floating-1 {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    right: -50px;
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .floating-2 {
+    width: 150px;
+    height: 150px;
+    bottom: 50px;
+    left: -30px;
+    animation: float 10s ease-in-out infinite 2s;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .modern-title {
+      font-size: 2.2rem;
+    }
+    
+    .modern-subtitle {
+      font-size: 1.1rem;
+    }
+    
+    .feature-card {
+      padding: 2rem 1.5rem;
+    }
+    
+    .testimonial-box {
+      padding: 2rem 1.5rem;
+      min-height: 250px;
+    }
+    
+    #testimonial-text {
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .modern-section {
+      padding: 3rem 1rem;
+    }
+    
+    .modern-title {
+      font-size: 1.8rem;
+    }
+    
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .review-card {
+      height: 250px;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="modern-section">
+  <div class="section-bg"></div>
+  <div class="floating-element floating-1"></div>
+  <div class="floating-element floating-2"></div>
+  
+  <div class="modern-container" style="text-align: center;">
+    <h1 class="modern-title">About Essy Properties</h1>
+    <p class="modern-subtitle">
+      Welcome to Essy Properties — your trusted real estate partner nestled in the heart of Ruiru. 
+      We're here to simplify the journey of buying and selling properties with elegance, transparency, and heart.
     </p>
   </div>
+</section>
 
-  <div style="max-width: 1000px; margin: 3rem auto; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Who We Are</h3>
-      <p style="color: #444;">Essy Properties is a locally rooted, superuser-managed real estate platform designed to serve all property seekers across Ruiru and beyond. We're not just agents — we’re matchmakers for homes and hearts.</p>
+<!-- Features Grid -->
+<section class="modern-section" style="padding-top: 0;">
+  <div class="modern-container">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Who We Are</h3>
+        <p>Essy Properties is a locally rooted, superuser-managed real estate platform designed to serve all property seekers across Ruiru and beyond. We're not just agents — we're matchmakers for homes and hearts.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>What We Do</h3>
+        <p>We list and showcase top-notch properties for sale. From elegant houses to spacious plots, every listing is uploaded by our verified seller to ensure you're seeing the best of what's available.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Why Choose Us?</h3>
+        <p>With a clean, user-friendly interface and features like favorites, seller messaging, meeting requests, and mobile optimization — we bring modern real estate to your fingertips.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>One Seller, Personalized Service</h3>
+        <p>All properties on this platform are uploaded and managed by one trusted seller (our superuser), ensuring consistency, direct communication, and top-tier service at every step.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Our Mission</h3>
+        <p>To redefine local real estate with technology, trust, and transparency — helping buyers find a place they'll proudly call home.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Let's Connect</h3>
+        <p>Reach out, book a meeting, or send us a message. We love turning your dreams into addresses.</p>
+      </div>
     </div>
 
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">What We Do</h3>
-      <p style="color: #444;">We list and showcase top-notch properties for sale. From elegant houses to spacious plots, every listing is uploaded by our verified seller to ensure you’re seeing the best of what’s available.</p>
+    <div class="modern-cta">
+      <h2 style="font-family: 'Playfair Display', serif; color: var(--text); margin-bottom: 1.5rem;">Ready to find your next home?</h2>
+      <a href="{% url 'property_list' %}" class="modern-btn">Browse Properties</a>
     </div>
-
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Why Choose Us?</h3>
-      <p style="color: #444;">With a clean, user-friendly interface and features like favorites, seller messaging, meeting requests, and mobile optimization — we bring modern real estate to your fingertips.</p>
-    </div>
-
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">One Seller, Personalized Service</h3>
-      <p style="color: #444;">All properties on this platform are uploaded and managed by one trusted seller (our superuser), ensuring consistency, direct communication, and top-tier service at every step.</p>
-    </div>
-
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Our Mission</h3>
-      <p style="color: #444;">To redefine local real estate with technology, trust, and transparency — helping buyers find a place they’ll proudly call home.</p>
-    </div>
-
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">Let’s Connect</h3>
-      <p style="color: #444;">Reach out, book a meeting, or send us a message. We love turning your dreams into addresses.</p>
-    </div>
-  </div>
-
-  <div style="text-align: center; padding: 2rem 1rem;">
-    <h2 style="font-family: 'Playfair Display', serif; color: #333;">Ready to find your next home?</h2>
-    <a href="{% url 'property_list' %}"
-       style="background: #8B4513; color: white; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
-       Browse Properties
-    </a>
   </div>
 </section>
+
 <!-- Reviews Section -->
-<section style="padding: 4rem 1rem; background: #f5f2ed;">
-  <div style="max-width: 1000px; margin: auto; text-align: center;">
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #8B4513;">Customer Reviews</h2>
-    <p style="color: #555;">Hover to reveal what our clients think about Essy Properties</p>
+<section class="reviews-section">
+  <div class="modern-container" style="text-align: center;">
+    <h2 class="modern-title">Customer Reviews</h2>
+    <p class="modern-subtitle">Flip to see what our clients say about Essy Properties</p>
 
     <div class="review-wrapper">
-      
-      <!-- Review Card -->
       <div class="review-card">
-        <div class="review-bg"></div>
-        <div class="review-content">
-          <div class="stars">★★★★★</div>
-          <p>Essy Properties made the whole buying process feel so easy. I would highly recommend them to anyone looking in Ruiru.</p>
-          <p class="author">— David K.</p>
+        <div class="review-front">
+          <div class="review-icon">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+          </div>
+          <h3 style="color: var(--primary); margin-bottom: 1rem;">David K.</h3>
+          <div class="review-stars">★★★★★</div>
+          <p style="color: var(--text-light);">Tap to read full review</p>
+        </div>
+        <div class="review-back">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Essy Properties made the whole buying process feel so easy. I would highly recommend them to anyone looking in Ruiru.</p>
+          <p class="review-author">— David K.</p>
         </div>
       </div>
 
       <div class="review-card">
-        <div class="review-bg"></div>
-        <div class="review-content">
-          <div class="stars">★★★★☆</div>
-          <p>Very professional team. Responsive and transparent throughout. Slight delay in calls, but overall amazing!</p>
-          <p class="author">— Miriam N.</p>
+        <div class="review-front">
+          <div class="review-icon">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+          </div>
+          <h3 style="color: var(--primary); margin-bottom: 1rem;">Miriam N.</h3>
+          <div class="review-stars">★★★★☆</div>
+          <p style="color: var(--text-light);">Tap to read full review</p>
+        </div>
+        <div class="review-back">
+          <div class="review-stars">★★★★☆</div>
+          <p class="review-text">Very professional team. Responsive and transparent throughout. Slight delay in calls, but overall amazing!</p>
+          <p class="review-author">— Miriam N.</p>
         </div>
       </div>
 
       <div class="review-card">
-        <div class="review-bg"></div>
-        <div class="review-content">
-          <div class="stars">★★★★★</div>
-          <p>Absolutely loved working with Essy Properties. They matched me with the perfect home quickly and smoothly!</p>
-          <p class="author">— Peter M.</p>
+        <div class="review-front">
+          <div class="review-icon">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+          </div>
+          <h3 style="color: var(--primary); margin-bottom: 1rem;">Peter M.</h3>
+          <div class="review-stars">★★★★★</div>
+          <p style="color: var(--text-light);">Tap to read full review</p>
+        </div>
+        <div class="review-back">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">Absolutely loved working with Essy Properties. They matched me with the perfect home quickly and smoothly!</p>
+          <p class="review-author">— Peter M.</p>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<style>
-.review-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-}
+<!-- Testimonials Carousel -->
+<section class="testimonials-section">
+  <div class="modern-container" style="text-align: center;">
+    <h2 class="modern-title">What Our Clients Say</h2>
+    <p class="modern-subtitle">Real stories from happy buyers and satisfied sellers.</p>
 
-.review-card {
-  position: relative;
-  flex: 1 1 300px;
-  max-width: 330px;
-  height: 260px;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  cursor: pointer;
-}
-
-.review-bg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 0%;
-  width: 100%;
-  background-color: #8B4513;
-  transition: height 0.5s ease;
-  z-index: 1;
-}
-
-.review-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  color: white;
-  padding: 2rem 1.5rem;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  font-style: italic;
-}
-
-.review-content .stars {
-  color: gold;
-  font-style: normal;
-  margin-bottom: 0.8rem;
-}
-
-.review-content .author {
-  font-weight: bold;
-  color: white;
-  font-style: normal;
-  margin-top: 1rem;
-}
-
-.review-card:hover .review-bg {
-  height: 100%;
-}
-
-.review-card:hover .review-content {
-  opacity: 1;
-}
-</style>
-
-
-<!-- Testimonials Section -->
-<section style="padding: 4rem 1rem; background: #fff8f0; position: relative; overflow: hidden;">
-  <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #8B4513;">What Our Clients Say</h2>
-    <p style="color: #666; margin-bottom: 2rem;">Real stories from happy buyers and satisfied sellers.</p>
-  </div>
-
-  <div id="testimonial-carousel" class="testimonial-box">
-    <div class="testimonial-background" id="testimonial-bg"></div>
-    <p id="testimonial-text">“Essy Properties made it so easy to find our dream home in Ruiru. The team was super helpful and responsive!”</p>
-    <p id="testimonial-author">— James & Irene</p>
+    <div id="testimonial-carousel" class="testimonial-box">
+      <div class="testimonial-background" id="testimonial-bg"></div>
+      <p id="testimonial-text">"Essy Properties made it so easy to find our dream home in Ruiru. The team was super helpful and responsive!"</p>
+      <p id="testimonial-author">— James & Irene</p>
+    </div>
   </div>
 </section>
-
-<style>
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.reveal-box {
-  flex: 1 1 300px;
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  overflow: hidden;
-  position: relative;
-}
-
-.slide-reveal {
-  position: relative;
-  overflow: hidden;
-  height: 0;
-  transition: height 0.5s ease, opacity 0.5s ease;
-  background: #8B4513;
-  color: white;
-  padding: 0 1rem;
-  margin-top: 1rem;
-  border-radius: 8px;
-  opacity: 0;
-}
-
-.reveal-box:hover .slide-reveal {
-  height: auto;
-  padding: 1rem;
-  opacity: 1;
-  animation: fadeInUp 0.5s ease forwards;
-}
-
-.testimonial-box {
-  max-width: 700px;
-  margin: 0 auto;
-  background: transparent;
-  padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  font-style: italic;
-}
-
-.testimonial-background {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #8B4513;
-  border-radius: 12px;
-  z-index: -1;
-  transform: translateY(100%);
-  animation: slideUp 1s ease forwards;
-}
-
-@keyframes slideUp {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(0); }
-}
-
-#testimonial-text, #testimonial-author {
-  color: white;
-  font-size: 1.1rem;
-  transition: opacity 0.5s ease;
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-#testimonial-author {
-  margin-top: 1rem;
-  font-weight: bold;
-  font-style: normal;
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Testimonials carousel
   const testimonials = [
     { text: "Essy Properties made it so easy to find our dream home in Ruiru. The team was super helpful and responsive!", author: "— James & Irene" },
     { text: "I listed my land on the platform and got serious buyers within a week. Smooth, professional experience!", author: "— Lucy M." },
@@ -264,23 +585,63 @@ document.addEventListener('DOMContentLoaded', () => {
   const authorEl = document.getElementById('testimonial-author');
   const bgEl = document.getElementById('testimonial-bg');
 
-  setInterval(() => {
+  function changeTestimonial() {
     current = (current + 1) % testimonials.length;
+    
+    // Fade out
     textEl.style.opacity = 0;
     authorEl.style.opacity = 0;
+    
+    // Reset animation
     bgEl.style.animation = 'none';
-    bgEl.offsetHeight; // force reflow
-    bgEl.style.animation = 'slideUp 1s ease forwards';
-
+    void bgEl.offsetWidth; // trigger reflow
+    bgEl.style.animation = 'slideUp 1s cubic-bezier(0.19, 1, 0.22, 1) forwards';
+    
+    // Change content after fade out
     setTimeout(() => {
-      textEl.textContent = `“${testimonials[current].text}”`;
+      textEl.textContent = `"${testimonials[current].text}"`;
       authorEl.textContent = testimonials[current].author;
+      
+      // Fade in
       textEl.style.opacity = 1;
       authorEl.style.opacity = 1;
     }, 500);
-  }, 7000);
+  }
+
+  // Initial delay
+  setTimeout(changeTestimonial, 5000);
+  
+  // Set interval for rotation
+  setInterval(changeTestimonial, 7000);
+  
+  // Animate feature cards on scroll
+  const featureCards = document.querySelectorAll('.feature-card');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, index * 100);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  featureCards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = `all 0.5s ease ${index * 0.1}s`;
+    observer.observe(card);
+  });
+
+  // Add click event for mobile reviews
+  const reviewCards = document.querySelectorAll('.review-card');
+  reviewCards.forEach(card => {
+    card.addEventListener('click', function() {
+      this.classList.toggle('flipped');
+    });
+  });
 });
 </script>
-
 {% endblock %}
-

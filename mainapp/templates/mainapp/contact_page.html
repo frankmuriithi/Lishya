@@ -2,28 +2,78 @@
 {% block title %}Contact Us{% endblock %}
 
 {% block content %}
-<div style="max-width:600px; margin:3rem auto; padding:2rem; background:#f8f8f8; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;">
-  <h2 style="color:#8B4513; margin-bottom:1rem;">Get in Touch</h2>
-  <p style="margin-bottom:1.5rem;">Have a question, need help, or want to schedule a meeting? Fill out the form below, and we'll get back to you as soon as possible.</p>
+<div style="max-width:600px; margin:3rem auto; padding:2.5rem; background:#ffffff; border-radius:16px; box-shadow:0 10px 30px rgba(0,120,255,0.1); text-align:center; 
+            animation: fadeIn 0.6s ease-out;">
+  <h2 style="color:#1a73e8; margin-bottom:1.5rem; font-weight:600; font-size:2rem;">Get in Touch</h2>
+  <p style="margin-bottom:2rem; color:#5f6368; line-height:1.6;">Have a question, need help, or want to schedule a meeting? Fill out the form below, and we'll get back to you as soon as possible.</p>
+  
   <form action="{% url 'contact_page' %}" method="post" style="text-align:left;">
     {% csrf_token %}
-    <div style="margin-bottom:1rem;">
-      <label for="name" style="font-weight:bold;">Your Name:</label>
+    <div style="margin-bottom:1.5rem; animation: slideUp 0.5s ease-out 0.1s both;">
+      <label for="name" style="font-weight:500; color:#3c4043; display:block; margin-bottom:0.5rem;">Your Name</label>
       <input type="text" id="name" name="name" placeholder="Your full name" required
-             style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; margin-top:0.3rem;" />
+             style="width:100%; padding:0.9rem; border-radius:10px; border:1px solid #dadce0; 
+                    transition: all 0.3s ease; font-size:1rem;
+                    &:focus { outline:none; border-color:#1a73e8; box-shadow:0 0 0 2px rgba(26,115,232,0.2); }" />
     </div>
-    <div style="margin-bottom:1rem;">
-      <label for="email" style="font-weight:bold;">Your Email:</label>
+    
+    <div style="margin-bottom:1.5rem; animation: slideUp 0.5s ease-out 0.2s both;">
+      <label for="email" style="font-weight:500; color:#3c4043; display:block; margin-bottom:0.5rem;">Your Email</label>
       <input type="email" id="email" name="email" placeholder="Your email address" required
-             style="width:100%; padding:0.7rem; border-radius:8px; border:1px solid #ccc; margin-top:0.3rem;" />
+             style="width:100%; padding:0.9rem; border-radius:10px; border:1px solid #dadce0; 
+                    transition: all 0.3s ease; font-size:1rem;
+                    &:focus { outline:none; border-color:#1a73e8; box-shadow:0 0 0 2px rgba(26,115,232,0.2); }" />
     </div>
-    <div style="margin-bottom:1rem;">
-      <label for="message" style="font-weight:bold;">Your Message:</label>
+    
+    <div style="margin-bottom:2rem; animation: slideUp 0.5s ease-out 0.3s both;">
+      <label for="message" style="font-weight:500; color:#3c4043; display:block; margin-bottom:0.5rem;">Your Message</label>
       <textarea id="message" name="message" placeholder="Your message or meeting request" required
-                style="width:100%; padding:0.7rem; min-height:120px; border-radius:8px; border:1px solid #ccc; margin-top:0.3rem;"></textarea>
+                style="width:100%; padding:0.9rem; min-height:150px; border-radius:10px; border:1px solid #dadce0; 
+                       transition: all 0.3s ease; font-size:1rem; resize:vertical;
+                       &:focus { outline:none; border-color:#1a73e8; box-shadow:0 0 0 2px rgba(26,115,232,0.2); }"></textarea>
     </div>
+    
     <button type="submit"
-            style="padding:0.7rem 1.5rem; background:#8B4513; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Send Message</button>
+            style="width:100%; padding:1rem; background:#1a73e8; color:white; border:none; border-radius:10px; 
+                   font-weight:500; font-size:1rem; cursor:pointer; transition: all 0.3s ease;
+                   box-shadow:0 2px 5px rgba(26,115,232,0.3); animation: slideUp 0.5s ease-out 0.4s both;
+                   &:hover { background:#1765cc; transform:translateY(-2px); box-shadow:0 4px 8px rgba(26,115,232,0.3); }
+                   &:active { transform:translateY(0); }">
+      Send Message
+    </button>
   </form>
 </div>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Add smooth transitions for form elements */
+  input, textarea, button {
+    transition: all 0.3s ease !important;
+  }
+  
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #1a73e8 !important;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.2) !important;
+  }
+  
+  button:hover {
+    background: #1765cc !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(26,115,232,0.3) !important;
+  }
+  
+  button:active {
+    transform: translateY(0) !important;
+  }
+</style>
 {% endblock %}

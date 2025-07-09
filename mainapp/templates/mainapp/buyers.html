@@ -2,55 +2,244 @@
 {% block title %}Buyer's Guide | Essy Properties{% endblock %}
 
 {% block content %}
-<section style="padding: 3rem 1rem; background: #f9f5f2;">
-  <div style="max-width: 1000px; margin: auto; text-align: center;">
-    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #8B4513;">Welcome to the Buyer's Guide</h1>
-    <p style="font-size: 1.1rem; color: #555; margin-top: 1rem;">
+<style>
+  .buyers-guide {
+    padding: 4rem 1rem;
+    background: var(--light-gray);
+  }
+
+  .guide-header {
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .guide-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+  }
+
+  .guide-subtitle {
+    font-size: 1.1rem;
+    color: var(--dark-gray);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .steps-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .step-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .step-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  }
+
+  .step-number {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background: var(--primary-blue);
+    color: var(--white);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .step-title {
+    color: var(--primary-blue);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .step-content {
+    color: var(--dark-gray);
+    line-height: 1.6;
+  }
+
+  .step-content a {
+    color: var(--primary-blue);
+    font-weight: 500;
+    text-decoration: none;
+    position: relative;
+  }
+
+  .step-content a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-blue);
+    transition: width 0.3s ease;
+  }
+
+  .step-content a:hover::after {
+    width: 100%;
+  }
+
+  .cta-section {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    color: var(--white);
+    margin-top: 3rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.6s forwards;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 0.8rem 1.8rem;
+    background: var(--white);
+    color: var(--primary-blue);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .guide-title {
+      font-size: 2rem;
+    }
+    
+    .step-card {
+      padding: 1.5rem;
+    }
+    
+    .step-title {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<section class="buyers-guide">
+  <div class="guide-header">
+    <h1 class="guide-title">Welcome to the Buyer's Guide</h1>
+    <p class="guide-subtitle">
       Your journey to finding the perfect home starts here! Whether you're a first-time buyer or a seasoned investor,
       this guide will give you all the confidence and tools to make smart, informed decisions.
     </p>
   </div>
 
   <!-- Key Steps -->
-  <div style="max-width: 1000px; margin: 3rem auto; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">1. Define Your Budget</h3>
-      <p style="color: #444;">Know what you can comfortably afford. Consider down payment, loan eligibility, and extra costs like legal fees.</p>
+  <div class="steps-grid">
+    <div class="step-card" style="animation: fadeInUp 0.6s ease-out 0.2s forwards;">
+      <div class="step-number">1</div>
+      <h3 class="step-title">Define Your Budget</h3>
+      <p class="step-content">Know what you can comfortably afford. Consider down payment, loan eligibility, and extra costs like legal fees.</p>
     </div>
 
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">2. Explore Listings</h3>
-      <p style="color: #444;">Use our <a href="{% url 'property_list' %}" style="color:#8B4513; text-decoration:underline;">Properties Page</a> to browse available homes based on location, type, and price.</p>
+    <div class="step-card" style="animation: fadeInUp 0.6s ease-out 0.3s forwards;">
+      <div class="step-number">2</div>
+      <h3 class="step-title">Explore Listings</h3>
+      <p class="step-content">Use our <a href="{% url 'property_list' %}">Properties Page</a> to browse available homes based on location, type, and price.</p>
     </div>
 
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">3. Schedule a Viewing</h3>
-      <p style="color: #444;">Click <strong>"Let us buy you a coffee"</strong> to request a meetup with the seller and get a feel of the property in person.</p>
+    <div class="step-card" style="animation: fadeInUp 0.6s ease-out 0.4s forwards;">
+      <div class="step-number">3</div>
+      <h3 class="step-title">Schedule a Viewing</h3>
+      <p class="step-content">Click <strong>"Let us buy you a coffee"</strong> to request a meetup with the seller and get a feel of the property in person.</p>
     </div>
 
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">4. Ask Questions</h3>
-      <p style="color: #444;">Use the <strong>Contact Seller</strong> feature to ask anything about the home — condition, documents, neighborhood, etc.</p>
+    <div class="step-card" style="animation: fadeInUp 0.6s ease-out 0.5s forwards;">
+      <div class="step-number">4</div>
+      <h3 class="step-title">Ask Questions</h3>
+      <p class="step-content">Use the <strong>Contact Seller</strong> feature to ask anything about the home — condition, documents, neighborhood, etc.</p>
     </div>
 
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">5. Save Favorites</h3>
-      <p style="color: #444;">Click the heart icon on listings you love to add them to your <a href="{% url 'view_favorites' %}" style="color:#8B4513; text-decoration:underline;">Favorites</a> page for quick access.</p>
+    <div class="step-card" style="animation: fadeInUp 0.6s ease-out 0.6s forwards;">
+      <div class="step-number">5</div>
+      <h3 class="step-title">Save Favorites</h3>
+      <p class="step-content">Click the heart icon on listings you love to add them to your <a href="{% url 'view_favorites' %}">Favorites</a> page for quick access.</p>
     </div>
 
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-      <h3 style="color: #8B4513; font-family: 'Playfair Display', serif;">6. Close the Deal</h3>
-      <p style="color: #444;">Once you’re happy, proceed with negotiations and paperwork. Our team is ready to assist every step of the way.</p>
+    <div class="step-card" style="animation: fadeInUp 0.6s ease-out 0.7s forwards;">
+      <div class="step-number">6</div>
+      <h3 class="step-title">Close the Deal</h3>
+      <p class="step-content">Once you're happy, proceed with negotiations and paperwork. Our team is ready to assist every step of the way.</p>
     </div>
   </div>
 
   <!-- Encouragement CTA -->
-  <div style="text-align: center; padding: 2rem 1rem;">
-    <h2 style="font-family: 'Playfair Display', serif; color: #333;">Still have questions?</h2>
-    <a href="{% url 'contact_page' %}"
-       style="background: #8B4513; color: white; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
-       Contact Us
+  <div class="cta-section">
+    <h2 class="cta-title">Still have questions?</h2>
+    <a href="{% url 'contact_page' %}" class="cta-button">
+      Contact Us
     </a>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effect to step cards
+    const cards = document.querySelectorAll('.step-card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-10px)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+      });
+    });
+  });
+</script>
 {% endblock %}
